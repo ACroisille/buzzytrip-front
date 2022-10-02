@@ -7,7 +7,7 @@ function ParticipantList({ participants }) {
       <List>
          {participants.map((participant) => (
             <ListItem key={participant.id}>
-               <Participant name={participant.name} />
+               <Participant name={participant.pseudo} />
             </ListItem>
          ))}
       </List>
