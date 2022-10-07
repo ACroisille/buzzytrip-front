@@ -10,17 +10,28 @@ import {
 } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useDeleteChoiceMutation } from "../features/choices";
 
-function SimpleChoice({ title, description }) {
+function SimpleChoice({ id, title, description }) {
+   const [deleteChoice] = useDeleteChoiceMutation();
    return (
       <Card sx={{ width: "inherit" }}>
          <CardHeader
             title={title}
             action={
-               <IconButton aria-label="settings">
-                  <MoreVertIcon />
-               </IconButton>
+               <div>
+                  <IconButton aria-label="edit">
+                     <EditIcon />
+                  </IconButton>
+                  <IconButton
+                     aria-label="delete"
+                     onClick={() => deleteChoice({ id: id })}
+                  >
+                     <DeleteIcon />
+                  </IconButton>
+               </div>
             }
          />
          <CardContent>

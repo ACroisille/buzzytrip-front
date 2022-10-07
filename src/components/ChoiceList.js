@@ -1,41 +1,39 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { List, ListItem } from "@mui/material";
 import SimpleChoice from "./SimpleChoice";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchChoices, selectChoices } from "../features/choices";
-import { PENDING, REJECTED, VOID } from "../utils/constants";
+import { useGetChoicesQuery } from "../features/choices";
 
 function ChoiceList() {
-   const dispatch = useDispatch();
+   const {
+      data: choices,
+      isLoading,
+      isSuccess,
+      isError,
+      error,
+   } = useGetChoicesQuery();
 
-   useEffect(() => {
-      dispatch(fetchChoices);
-   }, [dispatch]);
-
-   const choices = useSelector(selectChoices);
-
-   if (choices.status === REJECTED) {
-      return <span>Il y a un problème</span>;
+   let content;
+   if (isError) {
+      content = <p>{error}</p>;
+   } else if (isLoading) {
+      content = <p>Loading...</p>;
+   } else if (isSuccess) {
+      content = (
+         <List>
+            {choices.ids.map((choiceId) => (
+               <ListItem key={choiceId}>
+                  <SimpleChoice
+                     id={choiceId}
+                     title={choices.entities[choiceId].name}
+                     description={choices.entities[choiceId].description}
+                  />
+               </ListItem>
+            ))}
+         </List>
+      );
    }
 
-   return (
-      <div>
-         {choices.status === PENDING || choices.status === VOID ? (
-            <span>Loading choices</span>
-         ) : (
-            <List>
-               {choices.data.map((choice) => (
-                  <ListItem key={choice.id}>
-                     <SimpleChoice
-                        title={choice.name}
-                        description={choice.description}
-                     />
-                  </ListItem>
-               ))}
-            </List>
-         )}
-      </div>
-   );
+   return content;
 }
 
 export default ChoiceList;

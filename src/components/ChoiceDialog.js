@@ -8,9 +8,11 @@ import {
    DialogTitle,
    TextField,
 } from "@mui/material";
+import { useAddChoiceMutation } from "../features/choices";
 
-function ChoiceDialog({ choices, updateChoices }) {
+function ChoiceDialog() {
    const [open, setOpen] = useState(false);
+   const [addChoice] = useAddChoiceMutation();
 
    const handleClickOpen = () => {
       setOpen(true);
@@ -22,12 +24,11 @@ function ChoiceDialog({ choices, updateChoices }) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const newChoice = {
-         id: 4,
-         title: e.target["title"].value,
+      addChoice({
+         name: e.target["title"].value,
          description: e.target["description"].value,
-      };
-      updateChoices([...choices, newChoice]);
+         participant: 1,
+      });
    };
 
    return (
