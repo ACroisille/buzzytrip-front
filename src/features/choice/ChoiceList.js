@@ -1,7 +1,7 @@
 import React from "react";
 import { List, ListItem } from "@mui/material";
 import SimpleChoice from "./SimpleChoice";
-import { useGetChoicesQuery } from "../features/choices";
+import { useGetChoicesQuery } from "./choiceApiSlice";
 
 function ChoiceList() {
    const {

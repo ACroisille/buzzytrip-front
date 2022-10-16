@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Stack } from "@mui/material";
-import ChoiceList from "../components/ChoiceList";
-import ChoiceDialog from "../components/ChoiceDialog";
+import ChoiceList from "../features/choice/ChoiceList";
+import ChoiceDialog from "../features/choice/ChoiceDialog";
 
 function Poll() {
    return (

@@ -12,7 +12,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDeleteChoiceMutation } from "../features/choices";
+import { useDeleteChoiceMutation } from "./choiceApiSlice";
 
 function SimpleChoice({ id, title, description }) {
    const [deleteChoice] = useDeleteChoiceMutation();

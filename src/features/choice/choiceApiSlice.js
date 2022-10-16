@@ -1,5 +1,5 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
-import { apiSlice } from "./api/apiSlice";
+import { apiSlice } from "../api/apiSlice";
 
 const choiceAdapter = createEntityAdapter();
 const initialState = choiceAdapter.getInitialState();

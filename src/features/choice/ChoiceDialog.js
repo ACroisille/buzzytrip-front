@@ -8,7 +8,7 @@ import {
    DialogTitle,
    TextField,
 } from "@mui/material";
-import { useAddChoiceMutation } from "../features/choices";
+import { useAddChoiceMutation } from "./choiceApiSlice";
 
 function ChoiceDialog() {
    const [open, setOpen] = useState(false);
