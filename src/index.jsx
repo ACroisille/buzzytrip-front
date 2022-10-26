@@ -3,17 +3,30 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./store.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Poll from "./pages/Poll";
 import Header from "./components/Header";
+import Layout from "./components/Layout";
+import Public from "./components/Public";
+import Login from "./features/auth/Login";
+import RequireAuth from "./features/auth/RequireAuth";
+import Welcome from "./features/auth/Welcome";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
    <React.StrictMode>
       <Provider store={store}>
          <BrowserRouter>
             <Header />
             <Routes>
-               <Route path="/" element={<Poll />} />
+               <Route path="/" element={<Layout />}>
+                  {/* public routes */}
+                  <Route index element={<Public />} />
+                  <Route path="login" element={<Login />} />
+                  {/* protected routes */}
+                  <Route element={<RequireAuth />}>
+                     <Route path="welcome" element={<Welcome />} />
+                  </Route>
+               </Route>
             </Routes>
          </BrowserRouter>
       </Provider>
