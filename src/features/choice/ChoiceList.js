@@ -1,16 +1,16 @@
 import React from "react";
 import { List, ListItem } from "@mui/material";
 import SimpleChoice from "./SimpleChoice";
-import { useGetChoicesQuery } from "./choiceApiSlice";
+import { useGetPollChoicesQuery } from "./choiceApiSlice";
 
-function ChoiceList() {
+function ChoiceList({ poll_id }) {
    const {
       data: choices,
       isLoading,
       isSuccess,
       isError,
       error,
-   } = useGetChoicesQuery();
+   } = useGetPollChoicesQuery({ poll_id });
 
    let content;
    if (isError) {

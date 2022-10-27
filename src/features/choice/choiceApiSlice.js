@@ -6,8 +6,8 @@ const initialState = choiceAdapter.getInitialState();
 
 export const choiceApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
-      getChoices: builder.query({
-         query: () => "choice/",
+      getPollChoices: builder.query({
+         query: ({ poll_id }) => `/choice/?poll_id=${poll_id}`,
          transformResponse: (responseData) => {
             return choiceAdapter.setAll(initialState, responseData);
          },
@@ -18,7 +18,7 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
       }),
       addChoice: builder.mutation({
          query: (choice) => ({
-            url: "choice/",
+            url: "/choice/",
             method: "POST",
             body: choice,
          }),
@@ -38,7 +38,7 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-   useGetChoicesQuery,
+   useGetPollChoicesQuery,
    useAddChoiceMutation,
    useDeleteChoiceMutation,
 } = choiceApiSlice;

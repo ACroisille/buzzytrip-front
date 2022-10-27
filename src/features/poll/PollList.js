@@ -1,6 +1,7 @@
 import React from "react";
 import { List, ListItem } from "@mui/material";
 import { useGetUserPollsQuery } from "./pollApiSlice";
+import { Link } from "react-router-dom";
 
 function PollList({ user_id }) {
    const {
@@ -21,7 +22,9 @@ function PollList({ user_id }) {
          <List>
             {polls.ids.map((pollId) => (
                <ListItem key={pollId}>
-                  <h3>{polls.entities[pollId].name}</h3>
+                  <Link to={`/poll/${pollId}`}>
+                     {polls.entities[pollId].name}
+                  </Link>
                </ListItem>
             ))}
          </List>
