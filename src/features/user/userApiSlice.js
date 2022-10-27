@@ -1,11 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter } from "@reduxjs/toolkit";
+import { apiSlice } from "../api/apiSlice";
 
-const userSlice = createSlice({
-   name: "user",
-   initialState: {
-      status: "void",
-      data: null,
-      error: null,
-   },
-   reducers: {},
+const userAdapter = createEntityAdapter();
+const initialState = userAdapter.getInitialState();
+
+export const userApiSlice = apiSlice.injectEndpoints({
+   endpoints: (builder) => ({
+      getUser: builder.query({
+         query: ({ id }) => `/user/${id}`,
+         transformResponse: (responseData) => {
+            return userAdapter.setOne(initialState, responseData);
+         },
+         providesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
+      }),
+   }),
 });
+
+export const { useGetUserQuery } = userApiSlice;
