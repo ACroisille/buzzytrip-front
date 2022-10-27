@@ -30,6 +30,7 @@ const Login = () => {
       try {
          const userData = await login({ username, password }).unwrap();
          dispatch(setCredentials({ ...userData, username }));
+
          setUser("");
          setPwd("");
          navigate("/welcome");

@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 
 function Poll() {
    const { poll_id } = useParams();
-   console.log(poll_id);
 
    return (
       <Stack>
