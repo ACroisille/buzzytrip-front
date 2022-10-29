@@ -4,7 +4,6 @@ import PollList from "../poll/PollList";
 
 const Welcome = () => {
    const token = sessionStorage.getItem("access");
-   console.log(token);
    const decoded = token ? jwt_decode(token) : undefined;
    const { data: user } = useGetUserQuery({ id: decoded?.user_id });
 
@@ -15,7 +14,7 @@ const Welcome = () => {
    return (
       <section className="welcome">
          <h1>{welcome}</h1>
-         <PollList user_id={decoded?.user_id} />
+         <PollList userId={decoded?.user_id} />
       </section>
    );
 };

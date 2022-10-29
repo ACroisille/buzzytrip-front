@@ -7,7 +7,7 @@ const initialState = pollAdapter.getInitialState();
 export const pollApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getUserPolls: builder.query({
-         query: ({ user_id }) => `/poll/?user_id=${user_id}`,
+         query: ({ userId }) => `/poll/?user_id=${userId}`,
          transformResponse: (responseData) => {
             return pollAdapter.setAll(initialState, responseData);
          },

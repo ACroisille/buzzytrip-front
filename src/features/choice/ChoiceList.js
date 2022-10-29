@@ -3,14 +3,14 @@ import { List, ListItem } from "@mui/material";
 import SimpleChoice from "./SimpleChoice";
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
 
-function ChoiceList({ poll_id }) {
+function ChoiceList({ pollId }) {
    const {
       data: choices,
       isLoading,
       isSuccess,
       isError,
       error,
-   } = useGetPollChoicesQuery({ poll_id });
+   } = useGetPollChoicesQuery({ pollId });
 
    let content;
    if (isError) {
@@ -23,7 +23,7 @@ function ChoiceList({ poll_id }) {
             {choices.ids.map((choiceId) => (
                <ListItem key={choiceId}>
                   <SimpleChoice
-                     id={choiceId}
+                     choice_id={choiceId}
                      title={choices.entities[choiceId].name}
                      description={choices.entities[choiceId].description}
                   />

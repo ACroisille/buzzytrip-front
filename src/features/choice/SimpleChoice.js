@@ -14,8 +14,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteChoiceMutation } from "./choiceApiSlice";
 
-function SimpleChoice({ id, title, description }) {
+function SimpleChoice({ choiceId, title, description }) {
    const [deleteChoice] = useDeleteChoiceMutation();
+
    return (
       <Card sx={{ width: "inherit" }}>
          <CardHeader
@@ -27,7 +28,7 @@ function SimpleChoice({ id, title, description }) {
                   </IconButton>
                   <IconButton
                      aria-label="delete"
-                     onClick={() => deleteChoice({ id: id })}
+                     onClick={() => deleteChoice({ id: choiceId })}
                   >
                      <DeleteIcon />
                   </IconButton>

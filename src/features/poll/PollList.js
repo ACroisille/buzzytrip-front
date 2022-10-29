@@ -3,14 +3,14 @@ import { List, ListItem } from "@mui/material";
 import { useGetUserPollsQuery } from "./pollApiSlice";
 import { Link } from "react-router-dom";
 
-function PollList({ user_id }) {
+function PollList({ userId }) {
    const {
       data: polls,
       isLoading,
       isSuccess,
       isError,
       error,
-   } = useGetUserPollsQuery({ user_id });
+   } = useGetUserPollsQuery({ userId });
 
    let content;
    if (isError) {
