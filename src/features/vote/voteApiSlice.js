@@ -11,8 +11,8 @@ export const voteApiSlice = apiSlice.injectEndpoints({
          transformResponse: (responseData) => {
             return voteAdapter.setAll(initialState, responseData);
          },
-         providesTags: (result) => [
-            { type: "Vote", id: "LIST" },
+         providesTags: (result, error, arg) => [
+            { type: "VoteList", id: arg.choiceId },
             ...result.ids.map((id) => ({ type: "Vote", id })),
          ],
       }),
@@ -22,9 +22,25 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             method: "POST",
             body: vote,
          }),
-         invalidatesTags: [{ type: "Vote", id: "LIST" }],
+         invalidatesTags: (result, error, arg) => [
+            { type: "VoteList", id: arg.choice },
+         ],
+      }),
+      deleteVote: builder.mutation({
+         query: ({ id }) => ({
+            url: `/vote/${id}`,
+            method: "DELETE",
+            body: { id },
+         }),
+         invalidatesTags: (result, error, arg) => [
+            { type: "Vote", id: arg.id },
+         ],
       }),
    }),
 });
 
-export const { useGetChoiceVotesQuery, useAddVoteMutation } = voteApiSlice;
+export const {
+   useGetChoiceVotesQuery,
+   useAddVoteMutation,
+   useDeleteVoteMutation,
+} = voteApiSlice;
