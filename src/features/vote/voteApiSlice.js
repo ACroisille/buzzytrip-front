@@ -11,12 +11,20 @@ export const voteApiSlice = apiSlice.injectEndpoints({
          transformResponse: (responseData) => {
             return voteAdapter.setAll(initialState, responseData);
          },
-         providesTags: (result, error, arg) => [
+         providesTags: (result) => [
             { type: "Vote", id: "LIST" },
             ...result.ids.map((id) => ({ type: "Vote", id })),
          ],
       }),
+      addVote: builder.mutation({
+         query: (vote) => ({
+            url: "/vote/",
+            method: "POST",
+            body: vote,
+         }),
+         invalidatesTags: [{ type: "Vote", id: "LIST" }],
+      }),
    }),
 });
 
-export const { useGetChoiceVotesQuery } = voteApiSlice;
+export const { useGetChoiceVotesQuery, useAddVoteMutation } = voteApiSlice;

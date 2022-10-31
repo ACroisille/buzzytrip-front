@@ -1,20 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
    Card,
-   CardActions,
    CardContent,
    CardHeader,
    IconButton,
    Typography,
 } from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteChoiceMutation } from "./choiceApiSlice";
+import VoteButtons from "../vote/VoteButtons";
 
-function SimpleChoice({ choiceId, title, description }) {
+function SimpleChoice({ choiceId, loggedParticipantId, title, description }) {
    const [deleteChoice] = useDeleteChoiceMutation();
 
    return (
@@ -40,21 +38,12 @@ function SimpleChoice({ choiceId, title, description }) {
                {description}
             </Typography>
          </CardContent>
-         <CardActions>
-            <IconButton aria-label="Vote for it">
-               <ThumbUpIcon />
-            </IconButton>
-            <IconButton aria-label="Vote against it">
-               <ThumbDownIcon />
-            </IconButton>
-         </CardActions>
+         <VoteButtons
+            choiceId={choiceId}
+            loggedParticipantId={loggedParticipantId}
+         />
       </Card>
    );
 }
-
-SimpleChoice.propTypes = {
-   title: PropTypes.string,
-   description: PropTypes.string,
-};
 
 export default SimpleChoice;

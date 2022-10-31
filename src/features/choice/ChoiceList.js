@@ -3,7 +3,7 @@ import { List, ListItem } from "@mui/material";
 import SimpleChoice from "./SimpleChoice";
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
 
-function ChoiceList({ pollId }) {
+function ChoiceList({ pollId, loggedParticipantId }) {
    const {
       data: choices,
       isLoading,
@@ -23,7 +23,8 @@ function ChoiceList({ pollId }) {
             {choices.ids.map((choiceId) => (
                <ListItem key={choiceId}>
                   <SimpleChoice
-                     choice_id={choiceId}
+                     choiceId={choiceId}
+                     loggedParticipantId={loggedParticipantId}
                      title={choices.entities[choiceId].name}
                      description={choices.entities[choiceId].description}
                   />

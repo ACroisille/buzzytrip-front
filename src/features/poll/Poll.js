@@ -24,12 +24,13 @@ function Poll() {
       pollId: pollId,
    });
 
-   let pseudo;
+   let loggedParticipantId, pseudo;
    if (isError) {
       pseudo = <p>{error}</p>;
    } else if (isLoading) {
       pseudo = <p>Loading...</p>;
    } else if (isSuccess) {
+      loggedParticipantId = logged.ids[0];
       pseudo = <h1>{logged.entities[logged.ids].pseudo}</h1>;
    }
 
@@ -42,7 +43,10 @@ function Poll() {
                <ParticipantList pollId={pollId} />
             </Grid>
             <Grid item xs={10}>
-               <ChoiceList pollId={pollId} />
+               <ChoiceList
+                  pollId={pollId}
+                  loggedParticipantId={loggedParticipantId}
+               />
             </Grid>
          </Grid>
       </Stack>
