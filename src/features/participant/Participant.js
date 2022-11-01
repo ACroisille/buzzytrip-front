@@ -1,6 +1,8 @@
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
 import PropTypes from "prop-types";
+
+import { Card, CardContent, Typography } from "@mui/material";
+
 import SimpleChoice from "../choice/SimpleChoice";
 
 function Participant({ name }) {

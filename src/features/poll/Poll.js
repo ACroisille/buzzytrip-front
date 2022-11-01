@@ -1,37 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { Grid, Stack } from "@mui/material";
+import jwt_decode from "jwt-decode";
+
 import ChoiceList from "../choice/ChoiceList";
 import ChoiceDialog from "../choice/ChoiceDialog";
-import { useParams } from "react-router-dom";
-import jwt_decode from "jwt-decode";
-import { useGetLoggedParticipantQuery } from "../participant/participantApiSlice";
 import ParticipantList from "../participant/ParticipantList";
 
+import { useGetParticipantQuery } from "../participant/participantApiSlice";
+import {
+   selectParticipantId,
+   setParticipantId,
+} from "../participant/participantSlice";
+
 function Poll() {
+   const dispatch = useDispatch();
+
    const { poll_id: pollId } = useParams();
    const token = sessionStorage.getItem("access");
    const decoded = token ? jwt_decode(token) : undefined;
    const userId = decoded?.user_id;
 
+   const participantId = useSelector(selectParticipantId);
+
    const {
-      data: logged,
+      data: participant,
       isLoading,
       isSuccess,
       isError,
       error,
-   } = useGetLoggedParticipantQuery({
+   } = useGetParticipantQuery({
       userId: userId,
       pollId: pollId,
    });
 
-   let loggedParticipantId, pseudo;
+   useEffect(() => {
+      dispatch(setParticipantId({ participantId: participant?.ids[0] }));
+   }, [dispatch, participant]);
+
+   let pseudo;
    if (isError) {
       pseudo = <p>{error}</p>;
    } else if (isLoading) {
       pseudo = <p>Loading...</p>;
    } else if (isSuccess) {
-      loggedParticipantId = logged.ids[0];
-      pseudo = <h1>{logged.entities[logged.ids].pseudo}</h1>;
+      pseudo = <h1>{participant.entities[participant.ids].pseudo}</h1>;
    }
 
    return (
@@ -43,10 +57,7 @@ function Poll() {
                <ParticipantList pollId={pollId} />
             </Grid>
             <Grid item xs={10}>
-               <ChoiceList
-                  pollId={pollId}
-                  loggedParticipantId={loggedParticipantId}
-               />
+               <ChoiceList pollId={pollId} participantId={participantId} />
             </Grid>
          </Grid>
       </Stack>

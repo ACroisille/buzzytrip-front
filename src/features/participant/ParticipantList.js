@@ -1,5 +1,7 @@
 import React from "react";
+
 import { List, ListItem } from "@mui/material";
+
 import Participant from "./Participant";
 import { useGetPollParticipantsQuery } from "./participantApiSlice";
 

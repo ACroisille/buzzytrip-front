@@ -11,7 +11,7 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
          transformResponse: (responseData) => {
             return choiceAdapter.setAll(initialState, responseData);
          },
-         providesTags: (result, error, arg) => [
+         providesTags: (result) => [
             { type: "Choice", id: "LIST" },
             ...result.ids.map((id) => ({ type: "Choice", id })),
          ],
@@ -32,6 +32,7 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
          }),
          invalidatesTags: (result, error, arg) => [
             { type: "Choice", id: arg.id },
+            { type: "VoteList", id: arg.id },
          ],
       }),
    }),

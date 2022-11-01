@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
 import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
 
@@ -53,44 +53,47 @@ const Login = () => {
 
    const handlePwdInput = (e) => setPwd(e.target.value);
 
-   const content = isLoading ? (
-      <h1>Loading...</h1>
-   ) : (
-      <section className="login">
-         <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-         >
-            {errMsg}
-         </p>
+   let content;
+   if (isLoading) {
+      content = <h1>Loading...</h1>;
+   } else {
+      content = (
+         <section className="login">
+            <p
+               ref={errRef}
+               className={errMsg ? "errmsg" : "offscreen"}
+               aria-live="assertive"
+            >
+               {errMsg}
+            </p>
 
-         <h1>Login</h1>
+            <h1>Login</h1>
 
-         <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username:</label>
-            <input
-               type="text"
-               id="username"
-               ref={userRef}
-               value={username}
-               onChange={handleUserInput}
-               autoComplete="off"
-               required
-            />
+            <form onSubmit={handleSubmit}>
+               <label htmlFor="username">Username:</label>
+               <input
+                  type="text"
+                  id="username"
+                  ref={userRef}
+                  value={username}
+                  onChange={handleUserInput}
+                  autoComplete="off"
+                  required
+               />
 
-            <label htmlFor="password">Password:</label>
-            <input
-               type="password"
-               id="password"
-               onChange={handlePwdInput}
-               value={password}
-               required
-            />
-            <button>Sign In</button>
-         </form>
-      </section>
-   );
+               <label htmlFor="password">Password:</label>
+               <input
+                  type="password"
+                  id="password"
+                  onChange={handlePwdInput}
+                  value={password}
+                  required
+               />
+               <button>Sign In</button>
+            </form>
+         </section>
+      );
+   }
 
    return content;
 };

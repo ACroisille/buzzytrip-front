@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
    Card,
    CardContent,
@@ -6,13 +7,13 @@ import {
    IconButton,
    Typography,
 } from "@mui/material";
-
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+
 import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
 
-function SimpleChoice({ choiceId, loggedParticipantId, title, description }) {
+function SimpleChoice({ choiceId, participantId, title, description }) {
    const [deleteChoice] = useDeleteChoiceMutation();
 
    return (
@@ -38,10 +39,7 @@ function SimpleChoice({ choiceId, loggedParticipantId, title, description }) {
                {description}
             </Typography>
          </CardContent>
-         <VoteButtons
-            choiceId={choiceId}
-            loggedParticipantId={loggedParticipantId}
-         />
+         <VoteButtons choiceId={choiceId} participantId={participantId} />
       </Card>
    );
 }

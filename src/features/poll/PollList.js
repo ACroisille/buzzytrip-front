@@ -1,7 +1,9 @@
 import React from "react";
-import { List, ListItem } from "@mui/material";
-import { useGetUserPollsQuery } from "./pollApiSlice";
 import { Link } from "react-router-dom";
+
+import { List, ListItem } from "@mui/material";
+
+import { useGetUserPollsQuery } from "./pollApiSlice";
 
 function PollList({ userId }) {
    const {

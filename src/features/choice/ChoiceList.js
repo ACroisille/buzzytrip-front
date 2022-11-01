@@ -1,9 +1,11 @@
 import React from "react";
+
 import { List, ListItem } from "@mui/material";
+
 import SimpleChoice from "./SimpleChoice";
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
 
-function ChoiceList({ pollId, loggedParticipantId }) {
+function ChoiceList({ pollId, participantId }) {
    const {
       data: choices,
       isLoading,
@@ -24,7 +26,7 @@ function ChoiceList({ pollId, loggedParticipantId }) {
                <ListItem key={choiceId}>
                   <SimpleChoice
                      choiceId={choiceId}
-                     loggedParticipantId={loggedParticipantId}
+                     participantId={participantId}
                      title={choices.entities[choiceId].name}
                      description={choices.entities[choiceId].description}
                   />
