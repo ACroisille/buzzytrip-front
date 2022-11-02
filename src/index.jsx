@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./store.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
 import Header from "./components/Header";
 import Layout from "./components/Layout";
 import Public from "./components/Public";

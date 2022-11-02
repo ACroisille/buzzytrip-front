@@ -1,10 +1,4 @@
-import { Link } from "react-router-dom";
-
 const Public = () => {
-   return (
-      <section className="public">
-         <Link to="/login">Login</Link>
-      </section>
-   );
+   return <section className="bg-violet-100 mx-auto"></section>;
 };
 export default Public;
