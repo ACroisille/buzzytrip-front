@@ -13,13 +13,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
 
-function SimpleChoice({ choiceId, participantId, title, description }) {
+function SimpleChoice({ choiceId, participantId, name, description }) {
    const [deleteChoice] = useDeleteChoiceMutation();
 
    return (
       <Card sx={{ width: "inherit" }}>
          <CardHeader
-            title={title}
+            title={name}
             action={
                <div>
                   <IconButton aria-label="edit">

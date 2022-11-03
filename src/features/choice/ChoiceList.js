@@ -27,7 +27,7 @@ function ChoiceList({ pollId, participantId }) {
                   <SimpleChoice
                      choiceId={choiceId}
                      participantId={participantId}
-                     title={choices.entities[choiceId].name}
+                     name={choices.entities[choiceId].name}
                      description={choices.entities[choiceId].description}
                   />
                </ListItem>

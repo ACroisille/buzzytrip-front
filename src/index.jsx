@@ -9,7 +9,7 @@ import Layout from "./components/Layout";
 import Public from "./components/Public";
 import Login from "./features/auth/Login";
 import RequireAuth from "./features/auth/RequireAuth";
-import Welcome from "./features/auth/Welcome";
+import Home from "./features/home/Home";
 import Poll from "./features/poll/Poll";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -26,7 +26,7 @@ root.render(
                   <Route path="login" element={<Login />} />
                   {/* protected routes */}
                   <Route element={<RequireAuth />}>
-                     <Route path="welcome" element={<Welcome />} />
+                     <Route path="home" element={<Home />} />
                      <Route path="poll/:poll_id" element={<Poll />} />
                   </Route>
                </Route>

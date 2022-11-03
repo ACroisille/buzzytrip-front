@@ -35,7 +35,7 @@ const Login = () => {
 
          setUser("");
          setPwd("");
-         navigate("/welcome");
+         navigate("/home");
       } catch (err) {
          if (!err?.originalStatus) {
             // isLoading: true until timeout occurs
@@ -59,7 +59,7 @@ const Login = () => {
       content = <h1>Loading...</h1>;
    } else {
       content = (
-         <section>
+         <section className="login">
             <form
                onSubmit={handleSubmit}
                className="flex items-center flex-col"
