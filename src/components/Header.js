@@ -24,7 +24,7 @@ function Header() {
             </a>
             <a
                href="/login"
-               className="flex items-center text-lg px-4 leading-none border rounded text-white border-white hover:border-transparent hover:text-violet-500 hover:bg-white"
+               className="flex items-center uppercase px-4 leading-none border rounded text-white border-white hover:border-transparent hover:text-violet-500 hover:bg-white"
             >
                Login
             </a>
