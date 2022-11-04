@@ -1,9 +1,7 @@
 import React from "react";
-
-import { List, ListItem } from "@mui/material";
-
 import SimpleChoice from "./SimpleChoice";
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
+import PropTypes from "prop-types";
 
 function ChoiceList({ pollId, participantId }) {
    const {
@@ -21,22 +19,27 @@ function ChoiceList({ pollId, participantId }) {
       content = <p>Loading...</p>;
    } else if (isSuccess) {
       content = (
-         <List>
+         <ul className="w-full">
             {choices.ids.map((choiceId) => (
-               <ListItem key={choiceId}>
+               <li key={choiceId}>
                   <SimpleChoice
                      choiceId={choiceId}
                      participantId={participantId}
                      name={choices.entities[choiceId].name}
                      description={choices.entities[choiceId].description}
                   />
-               </ListItem>
+               </li>
             ))}
-         </List>
+         </ul>
       );
    }
 
    return content;
 }
+
+ChoiceList.proptypes = {
+   pollId: PropTypes.number,
+   participantId: PropTypes.number,
+};
 
 export default ChoiceList;

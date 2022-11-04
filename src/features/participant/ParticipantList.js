@@ -1,9 +1,7 @@
 import React from "react";
-
-import { List, ListItem } from "@mui/material";
-
-import Participant from "./Participant";
+import ParticipantCard from "./ParticipantCard";
 import { useGetPollParticipantsQuery } from "./participantApiSlice";
+import PropTypes from "prop-types";
 
 function ParticipantList({ pollId }) {
    const {
@@ -21,20 +19,26 @@ function ParticipantList({ pollId }) {
       content = <p>Loading...</p>;
    } else if (isSuccess) {
       content = (
-         <List>
-            {participants.ids.map((participantId) => (
-               <ListItem key={participantId}>
-                  <Participant
-                     participant_id={participantId}
-                     name={participants.entities[participantId].pseudo}
-                  />
-               </ListItem>
-            ))}
-         </List>
+         <div className="w-full">
+            <ul>
+               {participants.ids.map((participantId) => (
+                  <li key={participantId}>
+                     <ParticipantCard
+                        participant_id={participantId}
+                        name={participants.entities[participantId].pseudo}
+                     />
+                  </li>
+               ))}
+            </ul>
+         </div>
       );
    }
 
    return content;
 }
+
+ParticipantList.proptypes = {
+   pollId: PropTypes.number,
+};
 
 export default ParticipantList;
