@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import SimpleChoice from "../choice/SimpleChoice";
+import ChoiceCard from "../choice/ChoiceCard";
 
 function ParticipantCard({ name }) {
    return (
@@ -11,7 +11,7 @@ function ParticipantCard({ name }) {
    );
 }
 
-SimpleChoice.propTypes = {
+ChoiceCard.propTypes = {
    name: PropTypes.string,
 };
 

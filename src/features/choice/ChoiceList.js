@@ -1,9 +1,9 @@
 import React from "react";
-import SimpleChoice from "./SimpleChoice";
-import { useGetPollChoicesQuery } from "./choiceApiSlice";
 import PropTypes from "prop-types";
+import ChoiceCard from "./ChoiceCard";
+import { useGetPollChoicesQuery } from "./choiceApiSlice";
 
-function ChoiceList({ pollId, participantId }) {
+const ChoiceList = ({ pollId, participantId }) => {
    const {
       data: choices,
       isLoading,
@@ -22,7 +22,7 @@ function ChoiceList({ pollId, participantId }) {
          <ul className="w-full">
             {choices.ids.map((choiceId) => (
                <li key={choiceId}>
-                  <SimpleChoice
+                  <ChoiceCard
                      choiceId={choiceId}
                      participantId={participantId}
                      name={choices.entities[choiceId].name}
@@ -35,9 +35,9 @@ function ChoiceList({ pollId, participantId }) {
    }
 
    return content;
-}
+};
 
-ChoiceList.proptypes = {
+ChoiceList.propTypes = {
    pollId: PropTypes.number,
    participantId: PropTypes.number,
 };

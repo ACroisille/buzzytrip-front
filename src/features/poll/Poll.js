@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import PropTypes from "prop-types";
 
 import ChoiceList from "../choice/ChoiceList";
 import ChoiceDialog from "../choice/ChoiceDialog";
@@ -25,13 +26,7 @@ const Poll = () => {
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
 
-   const {
-      data: participant,
-      isLoading,
-      isSuccess,
-      isError,
-      error,
-   } = useGetParticipantQuery({
+   const { data: participant } = useGetParticipantQuery({
       userId: userId,
       pollId: pollId,
    });
@@ -40,21 +35,12 @@ const Poll = () => {
       dispatch(setParticipantId({ participantId: participant?.ids[0] }));
    }, [dispatch, participant]);
 
-   let pseudo;
-   if (isError) {
-      pseudo = <p>{error}</p>;
-   } else if (isLoading) {
-      pseudo = <p>Loading...</p>;
-   } else if (isSuccess) {
-      pseudo = <h1>{participant.entities[participant.ids].pseudo}</h1>;
-   }
-
    return (
       <section className="poll">
          <div className="flex justify-center mt-4">
             <div className="flex flex-col  w-2/3 mt-4">
                <div className="flex items-center justify-between">
-                  <p className="text-lg">Poll Name</p>
+                  <p className="text-2xl">Poll Name</p>
                   <button
                      className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                      type="button"
@@ -63,11 +49,11 @@ const Poll = () => {
                      Add Choice
                   </button>
                </div>
-               <div className="grid grid-cols-12 gap-4">
-                  <div className="col-span-2">
+               <div className="grid grid-cols-12 gap-2 mt-4">
+                  <div className="col-span-3">
                      <ParticipantList pollId={pollId} />
                   </div>
-                  <div className="col-span-10">
+                  <div className="col-span-9">
                      <ChoiceList
                         pollId={pollId}
                         participantId={participantId}
@@ -82,6 +68,10 @@ const Poll = () => {
          />
       </section>
    );
+};
+
+Poll.propTypes = {
+   name: PropTypes.string,
 };
 
 export default Poll;

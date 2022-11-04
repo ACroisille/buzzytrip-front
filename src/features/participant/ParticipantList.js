@@ -37,7 +37,7 @@ function ParticipantList({ pollId }) {
    return content;
 }
 
-ParticipantList.proptypes = {
+ParticipantList.propTypes = {
    pollId: PropTypes.number,
 };
 

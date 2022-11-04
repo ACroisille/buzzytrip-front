@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { CardActions, IconButton } from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 
 import {
    useAddVoteMutation,
@@ -63,16 +61,18 @@ function VoteButtons({ choiceId, participantId }) {
    };
 
    return (
-      <CardActions>
-         <IconButton
+      <div>
+         <button
             disabled={upVotesCount === 0 && voteCount >= 3}
             aria-label="Vote for it"
             onClick={handleUpVoteClick}
          >
-            <ThumbUpIcon />
-            {upVotesCount}
-         </IconButton>
-      </CardActions>
+            <div className="flex flex-row gap-1 items-center">
+               <HandThumbUpIcon className="h-6 w-6" />
+               <p>{upVotesCount}</p>
+            </div>
+         </button>
+      </div>
    );
 }
 

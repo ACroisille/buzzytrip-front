@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 import { useAddChoiceMutation } from "./choiceApiSlice";
