@@ -10,9 +10,9 @@ function ChoiceDialog({ visible, onClose }) {
       if (e.target.id === "choiceModal") onClose();
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
-      addChoice({
+      await addChoice({
          name: e.target["name"].value,
          description: e.target["description"].value,
          participant: 1,

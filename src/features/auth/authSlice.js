@@ -1,12 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
 
 const authSlice = createSlice({
    name: "auth",
-   initialState: { username: null },
+   initialState: { userId: null },
    reducers: {
+      setUserId: (state, action) => {
+         const { userId } = action.payload;
+         state.userId = userId;
+      },
       setCredentials: (state, action) => {
-         const { username, access, refresh } = action.payload;
-         state.username = username;
+         const { access, refresh } = action.payload;
+         state.userId = access ? jwt_decode(access).user_id : undefined;
 
          sessionStorage.setItem("access", access);
          if (refresh) {
@@ -14,15 +19,16 @@ const authSlice = createSlice({
          }
       },
       logOut: (state) => {
-         state.username = null;
+         state.userId = null;
          sessionStorage.setItem("access", null);
          localStorage.setItem("refresh", null);
+         console.log("Logout");
       },
    },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setUserId, setCredentials, logOut } = authSlice.actions;
 
-export const selectCurrentUser = (state) => state.auth.username;
+export const selectCurrentUser = (state) => state.auth.userId;
 
 export default authSlice.reducer;

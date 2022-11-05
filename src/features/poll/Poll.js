@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
 
 import ChoiceList from "../choice/ChoiceList";
@@ -13,21 +12,20 @@ import {
    selectParticipantId,
    setParticipantId,
 } from "../participant/participantSlice";
+import { selectCurrentUser } from "../auth/authSlice";
 
 const Poll = () => {
    const dispatch = useDispatch();
 
    const { poll_id: pollId } = useParams();
-   const token = sessionStorage.getItem("access");
-   const decoded = token ? jwt_decode(token) : undefined;
-   const userId = decoded?.user_id;
+   const currentUser = useSelector(selectCurrentUser);
 
    const participantId = useSelector(selectParticipantId);
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
 
    const { data: participant } = useGetParticipantQuery({
-      userId: userId,
+      userId: currentUser,
       pollId: pollId,
    });
 

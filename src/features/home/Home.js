@@ -1,13 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 
 import PollList from "./PollList";
 
+import { selectCurrentUser } from "../auth/authSlice";
+
 const Home = () => {
-   const token = sessionStorage.getItem("access");
-   const decoded = token ? jwt_decode(token) : undefined;
-   //const { data: user } = useGetUserQuery({ id: decoded?.user_id });
+   const currentUser = useSelector(selectCurrentUser);
 
    return (
       <section className="home">
@@ -22,7 +22,7 @@ const Home = () => {
                      New Poll
                   </Link>
                </div>
-               <PollList userId={decoded?.user_id} />
+               <PollList userId={currentUser} />
             </div>
          </div>
       </section>
