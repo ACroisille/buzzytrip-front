@@ -94,12 +94,13 @@ const Poll = () => {
          <ChoiceDialog
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}
+            participantId={participantId}
          />
          <UpdatePollDialog
             visible={showPollSettingsModal}
             onClose={handlePollSettingsModalOnClose}
-            pollId={pollId}
             participantId={participantId}
+            poll={poll?.entities[poll.ids[0]]}
          />
       </section>
    );

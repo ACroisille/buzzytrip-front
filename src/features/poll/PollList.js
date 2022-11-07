@@ -27,6 +27,7 @@ const PollList = ({ userId }) => {
                      <PollCard
                         pollId={pollId}
                         name={polls.entities[pollId].name}
+                        poll={polls.entities[pollId]}
                      />
                   </li>
                ))}

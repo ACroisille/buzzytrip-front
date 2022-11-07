@@ -6,7 +6,7 @@ import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
 import ChoiceDialog from "./ChoiceDialog";
 
-const ChoiceCard = ({ choiceId, participantId, choice }) => {
+const ChoiceCard = ({ choice }) => {
    const [deleteChoice] = useDeleteChoiceMutation();
 
    const [showChoiceModal, setShowChoiceModal] = useState(false);
@@ -20,7 +20,7 @@ const ChoiceCard = ({ choiceId, participantId, choice }) => {
                <button onClick={() => setShowChoiceModal(true)}>
                   <PencilIcon className="h-6 w-6" />
                </button>
-               <button onClick={() => deleteChoice({ id: choiceId })}>
+               <button onClick={() => deleteChoice({ id: choice?.id })}>
                   <TrashIcon className="h-6 w-6" />
                </button>
             </div>
@@ -28,7 +28,10 @@ const ChoiceCard = ({ choiceId, participantId, choice }) => {
          <div className="py-2">
             <p className="text-gray-500">{choice?.description}</p>
          </div>
-         <VoteButtons choiceId={choiceId} participantId={participantId} />
+         <VoteButtons
+            choiceId={choice?.id}
+            participantId={choice?.participant}
+         />
          <ChoiceDialog
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}

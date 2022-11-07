@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ChoiceCard from "./ChoiceCard";
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
 
-const ChoiceList = ({ pollId, participantId }) => {
+const ChoiceList = ({ pollId }) => {
    const {
       data: choices,
       isLoading,
@@ -23,11 +23,7 @@ const ChoiceList = ({ pollId, participantId }) => {
             <ul className="flex flex-col space-y-3">
                {choices.ids.map((choiceId) => (
                   <li key={choiceId}>
-                     <ChoiceCard
-                        choiceId={choiceId}
-                        participantId={participantId}
-                        choice={choices.entities[choiceId]}
-                     />
+                     <ChoiceCard choice={choices.entities[choiceId]} />
                   </li>
                ))}
             </ul>

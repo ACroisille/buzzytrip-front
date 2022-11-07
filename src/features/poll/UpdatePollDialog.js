@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-import { useGetPollQuery, useUpdatePollMutation } from "./pollApiSlice";
+import { useUpdatePollMutation } from "./pollApiSlice";
 import { useDeleteParticipantMutation } from "../participant/participantApiSlice";
 
-function UpdatePollDialog({ visible, onClose, pollId, participantId }) {
+function UpdatePollDialog({ visible, onClose, participantId, poll }) {
    const navigate = useNavigate();
-   const { data: poll } = useGetPollQuery({ pollId }, { skip: !visible });
+
    const [updatePoll] = useUpdatePollMutation();
    const [deleteParticipant] = useDeleteParticipantMutation();
 
@@ -21,7 +21,7 @@ function UpdatePollDialog({ visible, onClose, pollId, participantId }) {
       const description = e.target["description"].value;
 
       await updatePoll({
-         id: pollId,
+         id: poll?.id,
          name: e.target["name"].value,
          description: description ? description : null,
       });
@@ -29,7 +29,7 @@ function UpdatePollDialog({ visible, onClose, pollId, participantId }) {
       onClose();
    };
 
-   const handleQuitPoll = async (e) => {
+   const handleQuitPoll = async () => {
       await deleteParticipant({ id: participantId });
       onClose();
       navigate("/home");
@@ -58,7 +58,7 @@ function UpdatePollDialog({ visible, onClose, pollId, participantId }) {
                   type="text"
                   className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   placeholder="Name"
-                  defaultValue={poll?.entities[poll.ids[0]].name}
+                  defaultValue={poll?.name}
                   autoComplete="off"
                   required
                />
@@ -66,7 +66,7 @@ function UpdatePollDialog({ visible, onClose, pollId, participantId }) {
                   name="description"
                   placeholder="Description"
                   className="form-control resize-y block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  defaultValue={poll?.entities[poll.ids[0]].description}
+                  defaultValue={poll?.description}
                   autoComplete="off"
                />
                <button

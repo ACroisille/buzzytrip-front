@@ -6,7 +6,12 @@ import {
    useUpdateChoiceMutation,
 } from "./choiceApiSlice";
 
-function ChoiceDialog({ visible, onClose, choice = null }) {
+function ChoiceDialog({
+   visible,
+   onClose,
+   choice = null,
+   participantId = null,
+}) {
    const [addChoice] = useAddChoiceMutation();
    const [updateChoice] = useUpdateChoiceMutation();
 
@@ -31,7 +36,7 @@ function ChoiceDialog({ visible, onClose, choice = null }) {
          });
       } else {
          await addChoice({
-            participant: 1,
+            participant: participantId,
             ...body,
          });
       }
