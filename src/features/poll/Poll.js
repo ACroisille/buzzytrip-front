@@ -99,6 +99,7 @@ const Poll = () => {
             visible={showPollSettingsModal}
             onClose={handlePollSettingsModalOnClose}
             pollId={pollId}
+            participantId={participantId}
          />
       </section>
    );

@@ -24,8 +24,41 @@ export const participantApiSlice = apiSlice.injectEndpoints({
             ...result.ids.map((id) => ({ type: "Participant", id })),
          ],
       }),
+      addParticipant: builder.mutation({
+         query: (participant) => ({
+            url: "/participant/",
+            method: "POST",
+            body: participant,
+         }),
+         invalidatesTags: [{ type: "Participant", id: "LIST" }],
+      }),
+      updateParticipant: builder.mutation({
+         query: ({ id, ...participant }) => ({
+            url: `/participant/${id}/`,
+            method: "PATCH",
+            body: participant,
+         }),
+         invalidatesTags: (result, error, arg) => [
+            { type: "Participant", id: arg.id },
+         ],
+      }),
+      deleteParticipant: builder.mutation({
+         query: ({ id }) => ({
+            url: `/participant/${id}/`,
+            method: "DELETE",
+            body: { id },
+         }),
+         invalidatesTags: (result, error, arg) => [
+            { type: "Participant", id: arg.id },
+         ],
+      }),
    }),
 });
 
-export const { useGetParticipantQuery, useGetPollParticipantsQuery } =
-   participantApiSlice;
+export const {
+   useGetParticipantQuery,
+   useGetPollParticipantsQuery,
+   useAddParticipantMutation,
+   useUpdateParticipantMutation,
+   useDeleteParticipantMutation,
+} = participantApiSlice;

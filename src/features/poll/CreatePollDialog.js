@@ -38,7 +38,7 @@ function CreatePollDialog({ visible, onClose }) {
       >
          <div className="bg-white p-2 rounded shadow-md w-1/2">
             <div className="flex items-center justify-between w-full mb-3">
-               <p className="text-lg">New Poll</p>
+               <p className="text-lg">Poll Settings</p>
                <button onClick={() => onClose()}>
                   <XMarkIcon className="h-6 w-6" />
                </button>

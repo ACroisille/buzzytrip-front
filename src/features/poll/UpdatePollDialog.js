@@ -1,11 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 import { useGetPollQuery, useUpdatePollMutation } from "./pollApiSlice";
+import { useDeleteParticipantMutation } from "../participant/participantApiSlice";
 
-function CreatePollDialog({ visible, onClose, pollId }) {
+function UpdatePollDialog({ visible, onClose, pollId, participantId }) {
+   const navigate = useNavigate();
    const { data: poll } = useGetPollQuery({ pollId }, { skip: !visible });
    const [updatePoll] = useUpdatePollMutation();
+   const [deleteParticipant] = useDeleteParticipantMutation();
 
    const handleOnClose = (e) => {
       if (e.target.id === "updatePollModal") onClose();
@@ -25,6 +29,12 @@ function CreatePollDialog({ visible, onClose, pollId }) {
       onClose();
    };
 
+   const handleQuitPoll = async (e) => {
+      await deleteParticipant({ id: participantId });
+      onClose();
+      navigate("/home");
+   };
+
    if (!visible) return null;
    return (
       <div
@@ -34,7 +44,7 @@ function CreatePollDialog({ visible, onClose, pollId }) {
       >
          <div className="bg-white p-2 rounded shadow-md w-1/2">
             <div className="flex items-center justify-between w-full mb-3">
-               <p className="text-lg">Update Poll</p>
+               <p className="text-lg">Poll Settings</p>
                <button onClick={() => onClose()}>
                   <XMarkIcon className="h-6 w-6" />
                </button>
@@ -63,12 +73,21 @@ function CreatePollDialog({ visible, onClose, pollId }) {
                   className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                   type="submit"
                >
-                  Update Poll
+                  save
                </button>
             </form>
+            <div className="flex items-center justify-center w-full mt-3">
+               <button
+                  className="inline-block px-6 py-2.5 bg-white text-red-500 border border-red-500 font-medium leading-tight uppercase rounded shadow-md hover:text-white hover:bg-red-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+                  type="button"
+                  onClick={handleQuitPoll}
+               >
+                  Quit Poll
+               </button>
+            </div>
          </div>
       </div>
    );
 }
 
-export default CreatePollDialog;
+export default UpdatePollDialog;
