@@ -21,7 +21,7 @@ const PollList = ({ userId }) => {
    } else if (isSuccess) {
       content = (
          <div className="pt-4 w-full">
-            <ul>
+            <ul className="flex flex-col space-y-3">
                {polls.ids.map((pollId) => (
                   <li key={pollId}>
                      <PollCard

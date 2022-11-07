@@ -19,18 +19,20 @@ const ChoiceList = ({ pollId, participantId }) => {
       content = <p>Loading...</p>;
    } else if (isSuccess) {
       content = (
-         <ul className="w-full">
-            {choices.ids.map((choiceId) => (
-               <li key={choiceId}>
-                  <ChoiceCard
-                     choiceId={choiceId}
-                     participantId={participantId}
-                     name={choices.entities[choiceId].name}
-                     description={choices.entities[choiceId].description}
-                  />
-               </li>
-            ))}
-         </ul>
+         <div className="w-full">
+            <ul className="flex flex-col space-y-3">
+               {choices.ids.map((choiceId) => (
+                  <li key={choiceId}>
+                     <ChoiceCard
+                        choiceId={choiceId}
+                        participantId={participantId}
+                        name={choices.entities[choiceId].name}
+                        description={choices.entities[choiceId].description}
+                     />
+                  </li>
+               ))}
+            </ul>
+         </div>
       );
    }
 

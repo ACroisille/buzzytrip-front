@@ -9,7 +9,7 @@ const ChoiceCard = ({ choiceId, participantId, name, description }) => {
    const [deleteChoice] = useDeleteChoiceMutation();
 
    return (
-      <div className="flex flex-col bg-white rounded shadow-md p-2 mb-3">
+      <div className="flex flex-col bg-white rounded shadow-md p-2 hover:bg-violet-100">
          <div className="flex items-center justify-between">
             <p className="text-lg">{name}</p>
             <div>
