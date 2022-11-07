@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
@@ -14,7 +14,7 @@ const ChoiceCard = ({ choiceId, participantId, name, description }) => {
             <p className="text-lg">{name}</p>
             <div>
                <button onClick={() => deleteChoice({ id: choiceId })}>
-                  <XMarkIcon className="h-6 w-6" />
+                  <TrashIcon className="h-6 w-6" />
                </button>
             </div>
          </div>

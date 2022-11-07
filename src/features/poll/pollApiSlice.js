@@ -6,12 +6,21 @@ const initialState = pollAdapter.getInitialState();
 
 export const pollApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
+      getPoll: builder.query({
+         query: ({ pollId }) => `/poll/${pollId}`,
+         transformResponse: (responseData) => {
+            return pollAdapter.setOne(initialState, responseData);
+         },
+         providesTags: (result, error, arg) => [
+            { type: "Poll", id: arg.pollId },
+         ],
+      }),
       getUserPolls: builder.query({
          query: ({ userId }) => `/poll/?user_id=${userId}`,
          transformResponse: (responseData) => {
             return pollAdapter.setAll(initialState, responseData);
          },
-         providesTags: (result, error, arg) => [
+         providesTags: (result) => [
             { type: "Poll", id: "LIST" },
             ...result.ids.map((id) => ({ type: "Poll", id })),
          ],
@@ -38,6 +47,7 @@ export const pollApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+   useGetPollQuery,
    useGetUserPollsQuery,
    useAddPollMutation,
    useDeletePollMutation,

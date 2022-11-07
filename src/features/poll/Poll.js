@@ -13,6 +13,7 @@ import {
    setParticipantId,
 } from "../participant/participantSlice";
 import { selectCurrentUser } from "../auth/authSlice";
+import { useGetPollQuery } from "./pollApiSlice";
 
 const Poll = () => {
    const dispatch = useDispatch();
@@ -24,6 +25,14 @@ const Poll = () => {
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
 
+   const {
+      data: poll,
+      isError,
+      isSuccess,
+      isLoading,
+      error,
+   } = useGetPollQuery({ pollId: pollId });
+
    const { data: participant } = useGetParticipantQuery({
       userId: currentUser,
       pollId: pollId,
@@ -33,12 +42,21 @@ const Poll = () => {
       dispatch(setParticipantId({ participantId: participant?.ids[0] }));
    }, [dispatch, participant]);
 
+   let pollName;
+   if (isError) {
+      pollName = error;
+   } else if (isLoading) {
+      pollName = "Loading...";
+   } else if (isSuccess) {
+      pollName = poll.entities[poll.ids[0]].name;
+   }
+
    return (
       <section className="poll">
          <div className="flex justify-center mt-4">
             <div className="flex flex-col  w-2/3 mt-4">
                <div className="flex items-center justify-between">
-                  <p className="text-2xl">Poll Name</p>
+                  <p className="text-2xl">{pollName}</p>
                   <button
                      className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                      type="button"
