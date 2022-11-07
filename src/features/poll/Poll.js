@@ -14,16 +14,21 @@ import {
 } from "../participant/participantSlice";
 import { selectCurrentUser } from "../auth/authSlice";
 import { useGetPollQuery } from "./pollApiSlice";
+import UpdatePollDialog from "./UpdatePollDialog";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 const Poll = () => {
    const dispatch = useDispatch();
 
    const { poll_id: pollId } = useParams();
    const currentUser = useSelector(selectCurrentUser);
-
    const participantId = useSelector(selectParticipantId);
+
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
+
+   const [showPollSettingsModal, setShowPollSettingsModal] = useState(false);
+   const handlePollSettingsModalOnClose = () => setShowPollSettingsModal(false);
 
    const {
       data: poll,
@@ -57,13 +62,21 @@ const Poll = () => {
             <div className="flex flex-col  w-2/3 mt-4">
                <div className="flex items-center justify-between">
                   <p className="text-2xl">{pollName}</p>
-                  <button
-                     className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
-                     type="button"
-                     onClick={() => setShowChoiceModal(true)}
-                  >
-                     New Choice
-                  </button>
+                  <div className="flex flex-row space-x-3">
+                     <button
+                        className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+                        type="button"
+                        onClick={() => setShowChoiceModal(true)}
+                     >
+                        New Choice
+                     </button>
+                     <button>
+                        <Cog6ToothIcon
+                           className="h-10 w-10"
+                           onClick={() => setShowPollSettingsModal(true)}
+                        />
+                     </button>
+                  </div>
                </div>
                <div className="grid grid-cols-12 gap-2 mt-4">
                   <div className="col-span-3">
@@ -81,6 +94,11 @@ const Poll = () => {
          <ChoiceDialog
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}
+         />
+         <UpdatePollDialog
+            visible={showPollSettingsModal}
+            onClose={handlePollSettingsModalOnClose}
+            pollId={pollId}
          />
       </section>
    );

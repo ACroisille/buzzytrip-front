@@ -5,7 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { selectCurrentUser } from "../auth/authSlice";
 import { useAddPollMutation } from "./pollApiSlice";
 
-function PollDialog({ visible, onClose }) {
+function CreatePollDialog({ visible, onClose }) {
    const currentUser = useSelector(selectCurrentUser);
    const [addPoll] = useAddPollMutation();
 
@@ -25,6 +25,7 @@ function PollDialog({ visible, onClose }) {
          created_by: currentUser,
          pseudo: pseudo ? pseudo : null,
       });
+
       onClose();
    };
 
@@ -71,7 +72,7 @@ function PollDialog({ visible, onClose }) {
                   className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                   type="submit"
                >
-                  Add Poll
+                  Create Poll
                </button>
             </form>
          </div>
@@ -79,4 +80,4 @@ function PollDialog({ visible, onClose }) {
    );
 }
 
-export default PollDialog;
+export default CreatePollDialog;

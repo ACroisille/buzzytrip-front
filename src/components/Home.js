@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import PollList from "../features/poll/PollList";
 
 import { selectCurrentUser } from "../features/auth/authSlice";
-import PollDialog from "../features/poll/PollDialog";
+import CreatePollDialog from "../features/poll/CreatePollDialog";
 
 const Home = () => {
    const currentUser = useSelector(selectCurrentUser);
@@ -29,7 +29,10 @@ const Home = () => {
                <PollList userId={currentUser} />
             </div>
          </div>
-         <PollDialog visible={showPollModal} onClose={handlePollModalOnClose} />
+         <CreatePollDialog
+            visible={showPollModal}
+            onClose={handlePollModalOnClose}
+         />
       </section>
    );
 };

@@ -33,9 +33,19 @@ export const pollApiSlice = apiSlice.injectEndpoints({
          }),
          invalidatesTags: [{ type: "Poll", id: "LIST" }],
       }),
+      updatePoll: builder.mutation({
+         query: ({ id, ...poll }) => ({
+            url: `/poll/${id}/`,
+            method: "PATCH",
+            body: poll,
+         }),
+         invalidatesTags: (result, error, arg) => [
+            { type: "Poll", id: arg.id },
+         ],
+      }),
       deletePoll: builder.mutation({
          query: ({ id }) => ({
-            url: `/poll/${id}`,
+            url: `/poll/${id}/`,
             method: "DELETE",
             body: { id },
          }),
@@ -50,5 +60,6 @@ export const {
    useGetPollQuery,
    useGetUserPollsQuery,
    useAddPollMutation,
+   useUpdatePollMutation,
    useDeletePollMutation,
 } = pollApiSlice;
