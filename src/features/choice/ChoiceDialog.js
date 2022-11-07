@@ -1,10 +1,14 @@
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-import { useAddChoiceMutation } from "./choiceApiSlice";
+import {
+   useAddChoiceMutation,
+   useUpdateChoiceMutation,
+} from "./choiceApiSlice";
 
-function ChoiceDialog({ visible, onClose }) {
+function ChoiceDialog({ visible, onClose, choice = null }) {
    const [addChoice] = useAddChoiceMutation();
+   const [updateChoice] = useUpdateChoiceMutation();
 
    const handleOnClose = (e) => {
       if (e.target.id === "choiceModal") onClose();
@@ -12,11 +16,26 @@ function ChoiceDialog({ visible, onClose }) {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      await addChoice({
+
+      const description = e.target["description"].value;
+
+      const body = {
          name: e.target["name"].value,
-         description: e.target["description"].value,
-         participant: 1,
-      });
+         description: description ? description : null,
+      };
+
+      if (choice) {
+         await updateChoice({
+            id: choice.id,
+            ...body,
+         });
+      } else {
+         await addChoice({
+            participant: 1,
+            ...body,
+         });
+      }
+
       onClose();
    };
 
@@ -29,7 +48,7 @@ function ChoiceDialog({ visible, onClose }) {
       >
          <div className="bg-white p-2 rounded shadow-md w-1/2">
             <div className="flex items-center justify-between w-full mb-3">
-               <p className="text-lg">New Choice</p>
+               <p className="text-lg">Choice Settings</p>
                <button onClick={() => onClose()}>
                   <XMarkIcon className="h-6 w-6" />
                </button>
@@ -43,6 +62,7 @@ function ChoiceDialog({ visible, onClose }) {
                   type="text"
                   className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   placeholder="Name"
+                  defaultValue={choice?.name}
                   autoComplete="off"
                   required
                />
@@ -51,13 +71,13 @@ function ChoiceDialog({ visible, onClose }) {
                   placeholder="Description"
                   className="form-control resize-y block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   autoComplete="off"
-                  required
+                  defaultValue={choice?.description}
                />
                <button
                   className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                   type="submit"
                >
-                  Add Choice
+                  Save
                </button>
             </form>
          </div>

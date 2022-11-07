@@ -24,9 +24,19 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
          }),
          invalidatesTags: [{ type: "Choice", id: "LIST" }],
       }),
+      updateChoice: builder.mutation({
+         query: ({ id, ...choice }) => ({
+            url: `/choice/${id}/`,
+            method: "PATCH",
+            body: choice,
+         }),
+         invalidatesTags: (result, error, arg) => [
+            { type: "Choice", id: arg.id },
+         ],
+      }),
       deleteChoice: builder.mutation({
          query: ({ id }) => ({
-            url: `/choice/${id}`,
+            url: `/choice/${id}/`,
             method: "DELETE",
             body: { id },
          }),
@@ -41,5 +51,6 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
 export const {
    useGetPollChoicesQuery,
    useAddChoiceMutation,
+   useUpdateChoiceMutation,
    useDeleteChoiceMutation,
 } = choiceApiSlice;

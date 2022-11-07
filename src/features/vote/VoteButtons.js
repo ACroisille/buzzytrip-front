@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HandThumbUpIcon } from "@heroicons/react/24/solid";
+import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 
 import {
    useAddVoteMutation,
@@ -63,7 +63,7 @@ function VoteButtons({ choiceId, participantId }) {
    return (
       <div>
          <button
-            disabled={upVotesCount === 0 && voteCount >= 3}
+            disabled={upVotesCount === 0 && voteCount >= 1}
             aria-label="Vote for it"
             onClick={handleUpVoteClick}
          >

@@ -26,8 +26,7 @@ const ChoiceList = ({ pollId, participantId }) => {
                      <ChoiceCard
                         choiceId={choiceId}
                         participantId={participantId}
-                        name={choices.entities[choiceId].name}
-                        description={choices.entities[choiceId].description}
+                        choice={choices.entities[choiceId]}
                      />
                   </li>
                ))}
