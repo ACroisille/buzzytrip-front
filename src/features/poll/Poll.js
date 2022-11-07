@@ -44,7 +44,7 @@ const Poll = () => {
                      type="button"
                      onClick={() => setShowChoiceModal(true)}
                   >
-                     Add Choice
+                     New Choice
                   </button>
                </div>
                <div className="grid grid-cols-12 gap-2 mt-4">

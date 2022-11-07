@@ -38,7 +38,7 @@ const ChoiceList = ({ pollId, participantId }) => {
 };
 
 ChoiceList.propTypes = {
-   pollId: PropTypes.number,
+   pollId: PropTypes.string,
    participantId: PropTypes.number,
 };
 

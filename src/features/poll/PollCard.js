@@ -14,7 +14,7 @@ const PollCard = ({ pollId, name }) => {
 };
 
 PollCard.propTypes = {
-   pollId: PropTypes.number,
+   pollId: PropTypes.string,
    name: PropTypes.string,
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { useGetUserPollsQuery } from "../poll/pollApiSlice";
+import { useGetUserPollsQuery } from "./pollApiSlice";
 import PollCard from "./PollCard";
 
 const PollList = ({ userId }) => {

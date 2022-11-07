@@ -16,7 +16,15 @@ export const pollApiSlice = apiSlice.injectEndpoints({
             ...result.ids.map((id) => ({ type: "Poll", id })),
          ],
       }),
+      addPoll: builder.mutation({
+         query: (poll) => ({
+            url: "/poll/",
+            method: "POST",
+            body: poll,
+         }),
+         invalidatesTags: [{ type: "Poll", id: "LIST" }],
+      }),
    }),
 });
 
-export const { useGetUserPollsQuery } = pollApiSlice;
+export const { useGetUserPollsQuery, useAddPollMutation } = pollApiSlice;

@@ -38,7 +38,7 @@ function ParticipantList({ pollId }) {
 }
 
 ParticipantList.propTypes = {
-   pollId: PropTypes.number,
+   pollId: PropTypes.string,
 };
 
 export default ParticipantList;

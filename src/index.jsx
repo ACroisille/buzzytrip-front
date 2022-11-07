@@ -9,7 +9,7 @@ import Layout from "./components/Layout";
 import Public from "./components/Public";
 import Login from "./features/auth/Login";
 import RequireAuth from "./features/auth/RequireAuth";
-import Home from "./features/home/Home";
+import Home from "./components/Home";
 import Account from "./features/user/Account";
 import Poll from "./features/poll/Poll";
 
