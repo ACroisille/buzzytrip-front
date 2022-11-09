@@ -99,7 +99,7 @@ const Poll = () => {
          <UpdatePollDialog
             visible={showPollSettingsModal}
             onClose={handlePollSettingsModalOnClose}
-            participantId={participantId}
+            participant={participant?.entities[participant.ids[0]]}
             poll={poll?.entities[poll.ids[0]]}
          />
       </section>

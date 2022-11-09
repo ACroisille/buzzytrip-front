@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 import { useUpdatePollMutation } from "./pollApiSlice";
-import { useDeleteParticipantMutation } from "../participant/participantApiSlice";
+import {
+   useDeleteParticipantMutation,
+   useUpdateParticipantMutation,
+} from "../participant/participantApiSlice";
 
-function UpdatePollDialog({ visible, onClose, participantId, poll }) {
+function UpdatePollDialog({ visible, onClose, participant, poll }) {
    const navigate = useNavigate();
 
    const [updatePoll] = useUpdatePollMutation();
+   const [updateParticipant] = useUpdateParticipantMutation();
    const [deleteParticipant] = useDeleteParticipantMutation();
 
    const handleOnClose = (e) => {
@@ -18,19 +22,34 @@ function UpdatePollDialog({ visible, onClose, participantId, poll }) {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
+      const pseudo = e.target["pseudo"].value;
       const description = e.target["description"].value;
 
-      await updatePoll({
-         id: poll?.id,
-         name: e.target["name"].value,
-         description: description ? description : null,
-      });
+      if (participant?.pseudo !== pseudo) {
+         console.log("### UpdatePollDialog : pseudo");
+         await updateParticipant({
+            id: participant?.id,
+            pseudo: pseudo ? pseudo : null,
+         });
+      }
+
+      if (
+         poll?.name !== e.target["name"].value ||
+         poll?.description !== description
+      ) {
+         console.log("### UpdatePollDialog : informations");
+         await updatePoll({
+            id: poll?.id,
+            name: e.target["name"].value,
+            description: description ? description : null,
+         });
+      }
 
       onClose();
    };
 
    const handleQuitPoll = async () => {
-      await deleteParticipant({ id: participantId });
+      await deleteParticipant({ id: participant.id });
       onClose();
       navigate("/home");
    };
@@ -53,6 +72,15 @@ function UpdatePollDialog({ visible, onClose, participantId, poll }) {
                onSubmit={handleSubmit}
                className="flex items-center flex-col"
             >
+               <input
+                  name="pseudo"
+                  type="text"
+                  className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  placeholder="Pseudo"
+                  defaultValue={participant?.pseudo}
+                  autoComplete="off"
+                  required
+               />
                <input
                   name="name"
                   type="text"

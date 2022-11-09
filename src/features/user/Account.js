@@ -19,7 +19,7 @@ const Account = () => {
 
    let content;
    if (isError) {
-      content = <p>Error...</p>;
+      content = <p>{error}</p>;
    } else if (isLoading) {
       content = <p>Loading...</p>;
    } else if (isSuccess) {

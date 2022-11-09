@@ -12,7 +12,9 @@ export const participantApiSlice = apiSlice.injectEndpoints({
          transformResponse: (responseData) => {
             return participantAdpater.setOne(initialState, responseData[0]);
          },
-         providesTags: () => [{ type: "Participant", id: "CURRENT" }],
+         providesTags: (result) => [
+            ...result.ids.map((id) => ({ type: "Participant", id })),
+         ],
       }),
       getPollParticipants: builder.query({
          query: ({ pollId }) => `/participant/?poll_id=${pollId}`,
