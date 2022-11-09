@@ -16,13 +16,14 @@ import { selectCurrentUser } from "../auth/authSlice";
 import { useGetPollQuery } from "./pollApiSlice";
 import UpdatePollDialog from "./UpdatePollDialog";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import WelcomeDialog from "../participant/WelcomeDialog";
 
 const Poll = () => {
    const dispatch = useDispatch();
 
    const { poll_id: pollId } = useParams();
    const currentUser = useSelector(selectCurrentUser);
-   const participantId = useSelector(selectParticipantId);
+   const currentParticipant = useSelector(selectParticipantId);
 
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
@@ -30,38 +31,36 @@ const Poll = () => {
    const [showPollSettingsModal, setShowPollSettingsModal] = useState(false);
    const handlePollSettingsModalOnClose = () => setShowPollSettingsModal(false);
 
-   const {
-      data: poll,
-      isError,
-      isSuccess,
-      isLoading,
-      error,
-   } = useGetPollQuery({ pollId: pollId });
+   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+   const handleShowWelcomeModalOnClose = () => setShowWelcomeModal(false);
 
-   const { data: participant } = useGetParticipantQuery({
-      userId: currentUser,
+   const { data: poll, isSuccess: pollSuccess } = useGetPollQuery({
       pollId: pollId,
    });
+
+   const { data: participant, isSuccess: participantSuccess } =
+      useGetParticipantQuery({
+         userId: currentUser,
+         pollId: pollId,
+      });
 
    useEffect(() => {
       dispatch(setParticipantId({ participantId: participant?.ids[0] }));
    }, [dispatch, participant]);
 
-   let pollName;
-   if (isError) {
-      pollName = error;
-   } else if (isLoading) {
-      pollName = "Loading...";
-   } else if (isSuccess) {
-      pollName = poll.entities[poll.ids[0]].name;
-   }
+   useEffect(() => {
+      // console.log(pollSuccess, participantSuccess, participant?.ids[0]);
+      if (pollSuccess && participantSuccess && !participant?.ids[0]) {
+         setShowWelcomeModal(true);
+      }
+   }, [pollSuccess, participantSuccess, participant]);
 
    return (
       <section className="poll">
          <div className="flex justify-center mt-4">
             <div className="flex flex-col  w-2/3 mt-4">
                <div className="flex items-center justify-between">
-                  <p className="text-2xl">{pollName}</p>
+                  <p className="text-2xl">{poll?.entities[poll.ids[0]].name}</p>
                   <div className="flex flex-row space-x-3">
                      <button
                         className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
@@ -85,7 +84,7 @@ const Poll = () => {
                   <div className="col-span-9">
                      <ChoiceList
                         pollId={pollId}
-                        participantId={participantId}
+                        participantId={currentParticipant}
                      />
                   </div>
                </div>
@@ -94,13 +93,19 @@ const Poll = () => {
          <ChoiceDialog
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}
-            participantId={participantId}
+            participantId={currentParticipant}
          />
          <UpdatePollDialog
             visible={showPollSettingsModal}
             onClose={handlePollSettingsModalOnClose}
             participant={participant?.entities[participant.ids[0]]}
             poll={poll?.entities[poll.ids[0]]}
+         />
+         <WelcomeDialog
+            visible={showWelcomeModal}
+            onClose={handleShowWelcomeModalOnClose}
+            poll={poll?.entities[poll.ids[0]]}
+            userId={currentUser}
          />
       </section>
    );

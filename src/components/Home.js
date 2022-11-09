@@ -32,6 +32,7 @@ const Home = () => {
          <CreatePollDialog
             visible={showPollModal}
             onClose={handlePollModalOnClose}
+            userId={currentUser}
          />
       </section>
    );

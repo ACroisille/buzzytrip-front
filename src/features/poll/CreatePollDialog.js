@@ -1,12 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-import { selectCurrentUser } from "../auth/authSlice";
 import { useAddPollMutation } from "./pollApiSlice";
 
-function CreatePollDialog({ visible, onClose }) {
-   const currentUser = useSelector(selectCurrentUser);
+function CreatePollDialog({ visible, onClose, userId }) {
    const [addPoll] = useAddPollMutation();
 
    const handleOnClose = (e) => {
@@ -22,7 +19,7 @@ function CreatePollDialog({ visible, onClose }) {
       await addPoll({
          name: e.target["name"].value,
          description: description ? description : null,
-         created_by: currentUser,
+         created_by: userId,
          pseudo: pseudo ? pseudo : null,
       });
 

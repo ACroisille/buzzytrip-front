@@ -10,9 +10,13 @@ export const participantApiSlice = apiSlice.injectEndpoints({
          query: ({ userId, pollId }) =>
             `/participant/?user_id=${userId}&poll_id=${pollId}`,
          transformResponse: (responseData) => {
-            return participantAdpater.setOne(initialState, responseData[0]);
+            return participantAdpater.setOne(
+               initialState,
+               responseData[0] ? responseData[0] : { id: null }
+            );
          },
          providesTags: (result) => [
+            { type: "Participant", id: "CURRENT" },
             ...result.ids.map((id) => ({ type: "Participant", id })),
          ],
       }),
@@ -32,7 +36,11 @@ export const participantApiSlice = apiSlice.injectEndpoints({
             method: "POST",
             body: participant,
          }),
-         invalidatesTags: [{ type: "Participant", id: "LIST" }],
+         invalidatesTags: [
+            { type: "Poll", id: "LIST" },
+            { type: "Participant", id: "CURRENT" },
+            { type: "Participant", id: "LIST" },
+         ],
       }),
       updateParticipant: builder.mutation({
          query: ({ id, ...participant }) => ({
@@ -51,6 +59,7 @@ export const participantApiSlice = apiSlice.injectEndpoints({
             body: { id },
          }),
          invalidatesTags: (result, error, arg) => [
+            { type: "Poll", id: "LIST" },
             { type: "Participant", id: arg.id },
          ],
       }),
