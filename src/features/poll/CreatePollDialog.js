@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 import { useAddPollMutation } from "./pollApiSlice";
 
 function CreatePollDialog({ visible, onClose, userId }) {
+   const navigate = useNavigate();
    const [addPoll] = useAddPollMutation();
 
    const handleOnClose = (e) => {
@@ -16,7 +18,7 @@ function CreatePollDialog({ visible, onClose, userId }) {
       const description = e.target["description"].value;
       const pseudo = e.target["pseudo"].value;
 
-      await addPoll({
+      const poll = await addPoll({
          name: e.target["name"].value,
          description: description ? description : null,
          created_by: userId,
@@ -24,6 +26,7 @@ function CreatePollDialog({ visible, onClose, userId }) {
       });
 
       onClose();
+      navigate(`/poll/${poll.data.id}`);
    };
 
    if (!visible) return null;

@@ -63,12 +63,12 @@ function VoteButtons({ choiceId, participantId }) {
    return (
       <div>
          <button
-            disabled={upVotesCount === 0 && voteCount >= 1}
+            disabled={upVotesCount === 0 && voteCount >= 3}
             aria-label="Vote for it"
             onClick={handleUpVoteClick}
          >
             <div className="flex flex-row gap-1 items-center">
-               <HandThumbUpIcon className="h-6 w-6" />
+               <HandThumbUpIcon className={`h-6 w-6`} />
                <p>{upVotesCount}</p>
             </div>
          </button>

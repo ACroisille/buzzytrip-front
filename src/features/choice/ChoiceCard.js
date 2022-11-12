@@ -42,10 +42,7 @@ const ChoiceCard = ({ choice }) => {
 };
 
 ChoiceCard.propTypes = {
-   choiceId: PropTypes.number,
-   participantId: PropTypes.number,
-   name: PropTypes.string,
-   description: PropTypes.string,
+   choice: PropTypes.object,
 };
 
 export default ChoiceCard;

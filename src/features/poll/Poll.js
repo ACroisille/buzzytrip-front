@@ -11,6 +11,7 @@ import { useGetParticipantQuery } from "../participant/participantApiSlice";
 import {
    selectParticipantId,
    setParticipantId,
+   setParticipantVotes,
 } from "../participant/participantSlice";
 import { selectCurrentUser } from "../auth/authSlice";
 import { useGetPollQuery } from "./pollApiSlice";
@@ -46,6 +47,7 @@ const Poll = () => {
 
    useEffect(() => {
       dispatch(setParticipantId({ participantId: participant?.ids[0] }));
+      dispatch(setParticipantVotes(null));
    }, [dispatch, participant]);
 
    useEffect(() => {
