@@ -1,60 +1,31 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { HandThumbUpIcon } from "@heroicons/react/24/outline";
-
+import { useAddVoteMutation, useDeleteVoteMutation } from "./voteApiSlice";
+import { useSelector } from "react-redux";
 import {
-   useAddVoteMutation,
-   useGetChoiceVotesQuery,
-   useDeleteVoteMutation,
-} from "./voteApiSlice";
-import {
+   selectParticipantId,
    selectParticipantVotesCount,
-   setParticipantVotes,
 } from "../participant/participantSlice";
 
-function VoteButtons({ choiceId, participantId }) {
-   const dispatch = useDispatch();
-   const voteCount = useSelector(selectParticipantVotesCount);
-   const {
-      data: votes,
-      isLoading,
-      isSuccess,
-      isError,
-      error,
-   } = useGetChoiceVotesQuery({ choiceId });
-
-   useEffect(() => {
-      const participantVotesCount = votes?.ids
-         .map((id) => votes?.entities[id])
-         .filter((v) => v?.participant === participantId).length;
-      dispatch(setParticipantVotes({ [choiceId]: participantVotesCount }));
-   }, [dispatch, votes, choiceId, participantId]);
+function VoteButtons({ choiceId, votes }) {
+   const currentParticipant = useSelector(selectParticipantId);
+   const cpVoteCount = useSelector(selectParticipantVotesCount);
 
    const [addVote] = useAddVoteMutation();
    const [deleteVote] = useDeleteVoteMutation();
 
-   let upVotesCount;
-   if (isError) {
-      upVotesCount = error;
-   } else if (isLoading) {
-      upVotesCount = "Loading...";
-   } else if (isSuccess) {
-      const voteArray = votes.ids.map((id) => votes.entities[id]);
-      upVotesCount = voteArray.filter((v) => v.is_pos === true).length;
-   }
+   const cpUpVotes = votes?.filter(
+      (v) => v.participant === currentParticipant && v.is_pos === true
+   );
 
    const handleUpVoteClick = () => {
-      const participantUpVote = votes.ids
-         .map((id) => votes.entities[id])
-         .filter((v) => v.participant === participantId && v.is_pos === true);
-
-      if (participantUpVote.length > 0) {
-         const voteId = participantUpVote[0].id;
-         deleteVote({ id: voteId });
+      if (cpUpVotes.length > 0) {
+         const voteId = cpUpVotes[0].id;
+         deleteVote({ id: voteId, choiceId: choiceId });
       } else {
          addVote({
             choice: choiceId,
-            participant: participantId,
+            participant: currentParticipant,
             is_pos: true,
          });
       }
@@ -63,13 +34,13 @@ function VoteButtons({ choiceId, participantId }) {
    return (
       <div>
          <button
-            disabled={upVotesCount === 0 && voteCount >= 3}
+            disabled={cpUpVotes.length === 0 && cpVoteCount >= 1}
             aria-label="Vote for it"
             onClick={handleUpVoteClick}
          >
             <div className="flex flex-row gap-1 items-center">
                <HandThumbUpIcon className={`h-6 w-6`} />
-               <p>{upVotesCount}</p>
+               <p>{votes.length}</p>
             </div>
          </button>
       </div>

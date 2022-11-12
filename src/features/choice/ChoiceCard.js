@@ -28,10 +28,7 @@ const ChoiceCard = ({ choice }) => {
          <div className="py-2">
             <p className="text-gray-500">{choice?.description}</p>
          </div>
-         <VoteButtons
-            choiceId={choice?.id}
-            participantId={choice?.participant}
-         />
+         <VoteButtons choiceId={choice?.id} votes={choice?.votes} />
          <ChoiceDialog
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}

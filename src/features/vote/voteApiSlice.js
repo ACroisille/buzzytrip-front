@@ -23,7 +23,7 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             body: vote,
          }),
          invalidatesTags: (result, error, arg) => [
-            { type: "VoteList", id: arg.choice },
+            { type: "Choice", id: arg.choice },
          ],
       }),
       deleteVote: builder.mutation({
@@ -33,7 +33,7 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             body: { id },
          }),
          invalidatesTags: (result, error, arg) => [
-            { type: "Vote", id: arg.id },
+            { type: "Choice", id: arg.choiceId },
          ],
       }),
    }),

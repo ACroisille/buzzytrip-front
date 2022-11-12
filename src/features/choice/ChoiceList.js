@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import ChoiceCard from "./ChoiceCard";
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+   selectParticipantId,
+   setParticipantVotesCount,
+} from "../participant/participantSlice";
 
 const ChoiceList = ({ pollId }) => {
+   const dispatch = useDispatch();
+   const currentParticipant = useSelector(selectParticipantId);
    const {
       data: choices,
       isLoading,
@@ -11,6 +18,14 @@ const ChoiceList = ({ pollId }) => {
       isError,
       error,
    } = useGetPollChoicesQuery({ pollId });
+
+   useEffect(() => {
+      const cpVoteCount = choices?.ids
+         .map((id) => choices?.entities[id]?.votes)
+         .reduce((p, c) => p.concat(c))
+         .filter((v) => v?.participant === currentParticipant).length;
+      dispatch(setParticipantVotesCount({ voteCount: cpVoteCount }));
+   }, [dispatch, currentParticipant, choices]);
 
    let content;
    if (isError) {

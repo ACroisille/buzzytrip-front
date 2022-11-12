@@ -51,7 +51,6 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
          }),
          invalidatesTags: (result, error, arg) => [
             { type: "Choice", id: arg.id },
-            { type: "VoteList", id: arg.id },
          ],
       }),
    }),
