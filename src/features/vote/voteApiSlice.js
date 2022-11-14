@@ -77,9 +77,6 @@ export const voteApiSlice = apiSlice.injectEndpoints({
                patchResult.undo();
             }
          },
-         invalidatesTags: (result, error, arg) => [
-            { type: "Choice", id: arg.choice },
-         ],
       }),
    }),
 });

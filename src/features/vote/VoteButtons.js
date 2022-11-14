@@ -43,12 +43,18 @@ function VoteButtons({ choiceId, votes }) {
    return (
       <div>
          <button
-            disabled={cpUpVotes?.length === 0 && cpVoteCount >= 1}
+            disabled={cpUpVotes?.length === 0 && cpVoteCount >= 3}
             aria-label="Vote for it"
             onClick={handleUpVoteClick}
+            className={"group"}
          >
             <div className="flex flex-row gap-1 items-center">
-               <HandThumbUpIcon className={`h-6 w-6`} />
+               <HandThumbUpIcon
+                  className={`
+                  h-6 w-6 group-enabled:hover:fill-violet-400 group-disabled:fill-gray-400 
+                  ${cpUpVotes?.length ? "fill-violet-400" : ""}
+                  `}
+               />
                <p>{votes.length}</p>
             </div>
          </button>
