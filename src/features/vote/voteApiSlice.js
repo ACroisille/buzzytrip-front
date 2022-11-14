@@ -17,11 +17,31 @@ export const voteApiSlice = apiSlice.injectEndpoints({
          ],
       }),
       addVote: builder.mutation({
-         query: (vote) => ({
+         query: ({ pollId, ...vote }) => ({
             url: "/vote/",
             method: "POST",
             body: vote,
          }),
+         async onQueryStarted(
+            { pollId, ...vote },
+            { dispatch, queryFulfilled }
+         ) {
+            const patchResult = dispatch(
+               apiSlice.util.updateQueryData(
+                  "getPollChoices",
+                  { pollId: pollId },
+                  (draft) => {
+                     const choice = draft.entities[vote.choice];
+                     if (choice) choice.votes.push(vote);
+                  }
+               )
+            );
+            try {
+               await queryFulfilled;
+            } catch {
+               patchResult.undo();
+            }
+         },
          invalidatesTags: (result, error, arg) => [
             { type: "Choice", id: arg.choice },
          ],
@@ -32,8 +52,33 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             method: "DELETE",
             body: { id },
          }),
+         async onQueryStarted(
+            { pollId, ...vote },
+            { dispatch, queryFulfilled }
+         ) {
+            const patchResult = dispatch(
+               apiSlice.util.updateQueryData(
+                  "getPollChoices",
+                  { pollId: pollId },
+                  (draft) => {
+                     const choice = draft.entities[vote.choice];
+                     if (choice) {
+                        choice.votes.splice(
+                           choice.votes.findIndex((obj) => obj.id === vote.id),
+                           1
+                        );
+                     }
+                  }
+               )
+            );
+            try {
+               await queryFulfilled;
+            } catch {
+               patchResult.undo();
+            }
+         },
          invalidatesTags: (result, error, arg) => [
-            { type: "Choice", id: arg.choiceId },
+            { type: "Choice", id: arg.choice },
          ],
       }),
    }),

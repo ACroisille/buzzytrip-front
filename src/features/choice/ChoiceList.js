@@ -20,6 +20,7 @@ const ChoiceList = ({ pollId }) => {
    } = useGetPollChoicesQuery({ pollId });
 
    useEffect(() => {
+      // Total count for current participant
       const cpVoteCount = choices?.ids
          .map((id) => choices?.entities[id]?.votes)
          .reduce((p, c) => p.concat(c))
