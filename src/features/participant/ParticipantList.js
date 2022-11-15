@@ -20,7 +20,7 @@ function ParticipantList({ pollId }) {
    } else if (isSuccess) {
       content = (
          <div className="w-full">
-            <ul>
+            <ul className="flex flex-col space-y-2">
                {participants.ids.map((participantId) => (
                   <li key={participantId}>
                      <ParticipantCard

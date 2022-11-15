@@ -1,13 +1,16 @@
 import React from "react";
-import { useGetUserQuery } from "./userApiSlice";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { useGetUserQuery, useUpdateUserMutation } from "./userApiSlice";
 import { logOut, selectCurrentUser } from "../auth/authSlice";
 
 const Account = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const currentUser = useSelector(selectCurrentUser);
+
+   const [updateUser] = useUpdateUserMutation();
 
    const {
       data: user,
@@ -16,6 +19,21 @@ const Account = () => {
       isError,
       error,
    } = useGetUserQuery({ id: currentUser });
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      const first_name = e.target["first_name"].value;
+      const last_name = e.target["last_name"].value;
+
+      await updateUser({
+         id: currentUser,
+         email: e.target["email"].value,
+         username: e.target["username"].value,
+         first_name: first_name ? first_name : null,
+         last_name: last_name ? last_name : null,
+      });
+   };
 
    let content;
    if (isError) {
@@ -28,7 +46,16 @@ const Account = () => {
             <div className="flex justify-center mt-4">
                <div className="flex flex-col w-1/4 ">
                   <p className="text-lg mb-2">User settings</p>
-                  <form>
+                  <form onSubmit={handleSubmit}>
+                     <input
+                        name="email"
+                        type="email"
+                        className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        placeholder="Email"
+                        defaultValue={user?.entities[user?.ids[0]].email}
+                        autoComplete="off"
+                        required
+                     />
                      <input
                         name="username"
                         type="text"
@@ -45,7 +72,6 @@ const Account = () => {
                         placeholder="First Name"
                         defaultValue={user?.entities[user?.ids[0]].first_name}
                         autoComplete="off"
-                        required
                      />
                      <input
                         name="last_name"
@@ -54,16 +80,6 @@ const Account = () => {
                         placeholder="Last Name"
                         defaultValue={user?.entities[user?.ids[0]].last_name}
                         autoComplete="off"
-                        required
-                     />
-                     <input
-                        name="email"
-                        type="text"
-                        className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                        placeholder="Email"
-                        defaultValue={user?.entities[user?.ids[0]].email}
-                        autoComplete="off"
-                        required
                      />
                      <div className="flex flex-col items-center justify-center space-y-4">
                         <button

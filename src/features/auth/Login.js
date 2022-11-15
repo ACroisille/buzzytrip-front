@@ -12,7 +12,7 @@ const Login = () => {
    const userRef = useRef();
    const errRef = useRef();
 
-   const [username, setUser] = useState("");
+   const [email, setEmail] = useState("");
    const [password, setPwd] = useState("");
    const [errMsg, setErrMsg] = useState("");
 
@@ -24,16 +24,16 @@ const Login = () => {
 
    useEffect(() => {
       setErrMsg("");
-   }, [username, password]);
+   }, [email, password]);
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
       try {
-         const userData = await login({ username, password }).unwrap();
+         const userData = await login({ email, password }).unwrap();
          dispatch(setCredentials({ ...userData }));
 
-         setUser("");
+         setEmail("");
          setPwd("");
          navigate("/home");
       } catch (err) {
@@ -51,7 +51,7 @@ const Login = () => {
       }
    };
 
-   const handleUserInput = (e) => setUser(e.target.value);
+   const handleUserInput = (e) => setEmail(e.target.value);
    const handlePwdInput = (e) => setPwd(e.target.value);
 
    let content;
@@ -69,11 +69,11 @@ const Login = () => {
                </p>
                <div className="mb-4">
                   <input
-                     type="text"
+                     type="email"
                      className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                     placeholder="Username"
+                     placeholder="Email"
                      ref={userRef}
-                     value={username}
+                     value={email}
                      onChange={handleUserInput}
                      autoComplete="off"
                      required

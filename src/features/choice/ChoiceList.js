@@ -20,11 +20,14 @@ const ChoiceList = ({ pollId }) => {
    } = useGetPollChoicesQuery({ pollId });
 
    useEffect(() => {
-      // Total count for current participant
-      const cpVoteCount = choices?.ids
-         .map((id) => choices?.entities[id]?.votes)
-         .reduce((p, c) => p.concat(c))
-         .filter((v) => v?.participant === currentParticipant).length;
+      // Total vote count for current participant
+      const cpVoteCount =
+         choices?.ids.length > 0
+            ? choices?.ids
+                 .map((id) => choices?.entities[id]?.votes)
+                 .reduce((p, c) => p.concat(c))
+                 .filter((v) => v?.participant === currentParticipant).length
+            : 0;
       dispatch(setParticipantVotesCount({ voteCount: cpVoteCount }));
    }, [dispatch, currentParticipant, choices]);
 
