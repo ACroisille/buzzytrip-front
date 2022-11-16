@@ -6,6 +6,15 @@ import {
    useUpdateChoiceMutation,
 } from "./choiceApiSlice";
 
+/**
+ * Modal Component to create and update choices
+ * @param visible
+ * @param onClose
+ * @param choice
+ * @param participantId
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 function ChoiceDialog({
    visible,
    onClose,
@@ -30,11 +39,13 @@ function ChoiceDialog({
       };
 
       if (choice) {
+         // If the choice already exists, update it
          await updateChoice({
             id: choice.id,
             ...body,
          });
       } else {
+         // Else, create it
          await addChoice({
             participant: participantId,
             ...body,

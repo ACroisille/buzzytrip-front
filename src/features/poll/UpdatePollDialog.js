@@ -8,6 +8,15 @@ import {
    useUpdateParticipantMutation,
 } from "../participant/participantApiSlice";
 
+/**
+ * Modal Component to update Poll
+ * @param visible
+ * @param onClose
+ * @param participant
+ * @param poll
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 function UpdatePollDialog({ visible, onClose, participant, poll }) {
    const navigate = useNavigate();
 

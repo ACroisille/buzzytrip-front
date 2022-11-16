@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/auth/authSlice";
 
+/**
+ * Header component
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Header = () => {
    const currentUser = useSelector(selectCurrentUser);
 

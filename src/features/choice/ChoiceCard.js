@@ -6,6 +6,12 @@ import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
 import ChoiceDialog from "./ChoiceDialog";
 
+/**
+ * Compnonent that displays main data about choices
+ * @param choice
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const ChoiceCard = ({ choice }) => {
    const [deleteChoice] = useDeleteChoiceMutation();
 

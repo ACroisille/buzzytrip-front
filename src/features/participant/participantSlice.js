@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * Participant related store
+ */
 const participantSlice = createSlice({
    name: "participant",
    initialState: {

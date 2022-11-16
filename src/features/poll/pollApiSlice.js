@@ -4,6 +4,9 @@ import { apiSlice } from "../api/apiSlice";
 const pollAdapter = createEntityAdapter();
 const initialState = pollAdapter.getInitialState();
 
+/**
+ * Poll related endpoints
+ */
 export const pollApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getPoll: builder.query({

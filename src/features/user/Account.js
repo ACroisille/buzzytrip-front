@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useGetUserQuery, useUpdateUserMutation } from "./userApiSlice";
 import { logOut, selectCurrentUser } from "../auth/authSlice";
 
+/**
+ * Component to edit user data
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Account = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();

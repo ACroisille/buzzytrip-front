@@ -8,6 +8,13 @@ import {
 } from "../participant/participantSlice";
 import { useParams } from "react-router-dom";
 
+/**
+ * Component to vote
+ * @param choiceId
+ * @param votes
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function VoteButtons({ choiceId, votes }) {
    const { poll_id: pollId } = useParams();
 

@@ -3,6 +3,12 @@ import ParticipantCard from "./ParticipantCard";
 import { useGetPollParticipantsQuery } from "./participantApiSlice";
 import PropTypes from "prop-types";
 
+/**
+ * Compnonent that list participants
+ * @param pollId
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function ParticipantList({ pollId }) {
    const {
       data: participants,

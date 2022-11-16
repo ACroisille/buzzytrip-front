@@ -1,5 +1,8 @@
 import { apiSlice } from "../api/apiSlice";
 
+/**
+ * Authentification related endpoints
+ */
 export const authApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       login: builder.mutation({

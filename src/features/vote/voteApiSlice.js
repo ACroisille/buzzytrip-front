@@ -4,6 +4,9 @@ import { apiSlice } from "../api/apiSlice";
 const voteAdapter = createEntityAdapter();
 const initialState = voteAdapter.getInitialState();
 
+/**
+ * Vote related endpoints
+ */
 export const voteApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getChoiceVotes: builder.query({

@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
 
+/**
+ * Login component
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Login = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();

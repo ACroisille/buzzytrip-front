@@ -8,6 +8,12 @@ import {
    setParticipantVotesCount,
 } from "../participant/participantSlice";
 
+/**
+ * Compnonent that list choices
+ * @param pollId
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const ChoiceList = ({ pollId }) => {
    const dispatch = useDispatch();
    const currentParticipant = useSelector(selectParticipantId);

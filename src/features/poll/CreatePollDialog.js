@@ -4,6 +4,14 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 import { useAddPollMutation } from "./pollApiSlice";
 
+/**
+ * Modal Component to create a new Poll
+ * @param visible
+ * @param onClose
+ * @param userId
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 function CreatePollDialog({ visible, onClose, userId }) {
    const navigate = useNavigate();
    const [addPoll] = useAddPollMutation();

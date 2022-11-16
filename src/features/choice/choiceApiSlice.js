@@ -4,6 +4,9 @@ import { apiSlice } from "../api/apiSlice";
 const choiceAdapter = createEntityAdapter();
 const initialState = choiceAdapter.getInitialState();
 
+/**
+ * Choice related endpoints
+ */
 export const choiceApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getPollChoices: builder.query({

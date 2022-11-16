@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 import { useAddParticipantMutation } from "./participantApiSlice";
 
+/**
+ * Modal Componennt that allow user to join a Poll
+ * @param visible
+ * @param onClose
+ * @param poll
+ * @param userId
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 const WelcomeDialog = ({ visible, onClose, poll, userId }) => {
    const navigate = useNavigate();
    const [addParticipant] = useAddParticipantMutation();

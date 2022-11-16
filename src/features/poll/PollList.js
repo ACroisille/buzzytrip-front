@@ -4,6 +4,12 @@ import PropTypes from "prop-types";
 import { useGetUserPollsQuery } from "./pollApiSlice";
 import PollCard from "./PollCard";
 
+/**
+ * Component that list Poll
+ * @param userId
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const PollList = ({ userId }) => {
    const {
       data: polls,

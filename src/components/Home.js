@@ -6,6 +6,12 @@ import PollList from "../features/poll/PollList";
 import { selectCurrentUser } from "../features/auth/authSlice";
 import CreatePollDialog from "../features/poll/CreatePollDialog";
 
+/**
+ * Home component
+ * List user's polls
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Home = () => {
    const currentUser = useSelector(selectCurrentUser);
 

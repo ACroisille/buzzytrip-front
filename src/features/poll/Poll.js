@@ -18,6 +18,11 @@ import UpdatePollDialog from "./UpdatePollDialog";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import WelcomeDialog from "../participant/WelcomeDialog";
 
+/**
+ * Component Poll
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Poll = () => {
    const dispatch = useDispatch();
 
@@ -25,12 +30,15 @@ const Poll = () => {
    const currentUser = useSelector(selectCurrentUser);
    const currentParticipant = useSelector(selectParticipantId);
 
+   // Diplay and Hide Choice Modal Component
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
 
+   // Diplay and Hide Poll Modal Component
    const [showPollSettingsModal, setShowPollSettingsModal] = useState(false);
    const handlePollSettingsModalOnClose = () => setShowPollSettingsModal(false);
 
+   // Diplay and Hide Welcome Modal Component
    const [showWelcomeModal, setShowWelcomeModal] = useState(false);
    const handleShowWelcomeModalOnClose = () => setShowWelcomeModal(false);
 
@@ -44,12 +52,13 @@ const Poll = () => {
          pollId: pollId,
       });
 
+   // Dispatch current participant Id
    useEffect(() => {
       dispatch(setParticipantId({ participantId: participant?.ids[0] }));
    }, [dispatch, participant]);
 
+   // Show Welcome Modal if
    useEffect(() => {
-      // console.log(pollSuccess, participantSuccess, participant?.ids[0]);
       if (pollSuccess && participantSuccess && !participant?.ids[0]) {
          setShowWelcomeModal(true);
       }

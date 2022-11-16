@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
 
+/**
+ * Authentification related store
+ */
 const authSlice = createSlice({
    name: "auth",
    initialState: { userId: null },
