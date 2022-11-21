@@ -48,7 +48,7 @@ const Header = () => {
             to="/"
             className="flex text-white	font-semibold text-3xl tracking-tight"
          >
-            PollTrip
+            BuzzyTrip
          </Link>
          <nav className="flex grow justify-center">
             <Link
