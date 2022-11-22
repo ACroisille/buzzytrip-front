@@ -18,10 +18,29 @@ const ChoiceCard = ({ choice }) => {
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
 
+   const description = choice?.description ? (
+      <div className="py-2">
+         <p className="text-gray-500">{choice?.description}</p>
+      </div>
+   ) : null;
+
+   const link = choice?.link ? (
+      <div className="py-2">
+         <a
+            href={choice?.link}
+            target="_blank"
+            rel="noreferrer"
+            className="text-blue-500"
+         >
+            {choice?.link}
+         </a>
+      </div>
+   ) : null;
+
    return (
       <div className="flex flex-col bg-white rounded shadow-md p-2 hover:bg-violet-100">
          <div className="flex items-center justify-between">
-            <p className="text-lg">{choice?.name}</p>
+            <p className="text-xl">{choice?.name}</p>
             <div className="flex items-center space-x-2">
                <button onClick={() => setShowChoiceModal(true)}>
                   <PencilIcon className="h-6 w-6" />
@@ -31,9 +50,8 @@ const ChoiceCard = ({ choice }) => {
                </button>
             </div>
          </div>
-         <div className="py-2">
-            <p className="text-gray-500">{choice?.description}</p>
-         </div>
+         {description}
+         {link}
          <VoteButtons choiceId={choice?.id} votes={choice?.votes} />
          <ChoiceDialog
             visible={showChoiceModal}
