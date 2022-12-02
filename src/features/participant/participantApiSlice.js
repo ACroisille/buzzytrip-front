@@ -33,6 +33,11 @@ export const participantApiSlice = apiSlice.injectEndpoints({
             ...result.ids.map((id) => ({ type: "Participant", id })),
          ],
       }),
+      getVoteCount: builder.query({
+         query: ({ participantId }) =>
+            `/participant/${participantId}/get_vote_count/`,
+         providesTags: (result) => [{ type: "Participant", id: "VOTE_COUNT" }],
+      }),
       addParticipant: builder.mutation({
          query: (participant) => ({
             url: "/participant/",
@@ -72,6 +77,7 @@ export const participantApiSlice = apiSlice.injectEndpoints({
 export const {
    useGetParticipantQuery,
    useGetPollParticipantsQuery,
+   useGetVoteCountQuery,
    useAddParticipantMutation,
    useUpdateParticipantMutation,
    useDeleteParticipantMutation,

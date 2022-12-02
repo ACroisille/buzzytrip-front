@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 
+import WelcomeDialog from "../participant/WelcomeDialog";
 import ChoiceList from "../choice/ChoiceList";
 import ChoiceDialog from "../choice/ChoiceDialog";
-import ParticipantList from "../participant/ParticipantList";
+import UpdatePollDialog from "./UpdatePollDialog";
 
+import { useGetPollQuery } from "./pollApiSlice";
 import { useGetParticipantQuery } from "../participant/participantApiSlice";
+
 import {
    selectParticipantId,
    setParticipantId,
 } from "../participant/participantSlice";
 import { selectCurrentUser } from "../auth/authSlice";
-import { useGetPollQuery } from "./pollApiSlice";
-import UpdatePollDialog from "./UpdatePollDialog";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
-import WelcomeDialog from "../participant/WelcomeDialog";
 
 /**
  * Component Poll
@@ -42,10 +42,12 @@ const Poll = () => {
    const [showWelcomeModal, setShowWelcomeModal] = useState(false);
    const handleShowWelcomeModalOnClose = () => setShowWelcomeModal(false);
 
+   // Get Poll Details
    const { data: poll, isSuccess: pollSuccess } = useGetPollQuery({
       pollId: pollId,
    });
 
+   // Get Current Participant Details
    const { data: participant, isSuccess: participantSuccess } =
       useGetParticipantQuery({
          userId: currentUser,
@@ -57,7 +59,7 @@ const Poll = () => {
       dispatch(setParticipantId({ participantId: participant?.ids[0] }));
    }, [dispatch, participant]);
 
-   // Show Welcome Modal if
+   // Show Welcome Modal if participant is not in this poll
    useEffect(() => {
       if (pollSuccess && participantSuccess && !participant?.ids[0]) {
          setShowWelcomeModal(true);
@@ -86,13 +88,8 @@ const Poll = () => {
                      </button>
                   </div>
                </div>
-               <div className="grid grid-cols-12 gap-2 mt-4">
-                  <div className="col-span-3">
-                     <ParticipantList pollId={pollId} />
-                  </div>
-                  <div className="col-span-9">
-                     <ChoiceList pollId={pollId} />
-                  </div>
+               <div className="mt-4">
+                  <ChoiceList pollId={pollId} />
                </div>
             </div>
          </div>

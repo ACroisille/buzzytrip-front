@@ -8,6 +8,7 @@ const participantSlice = createSlice({
    initialState: {
       participantId: null,
       participantVotesCount: null,
+      currentPage: 1,
    },
    reducers: {
       setParticipantId: (state, action) => {
@@ -18,14 +19,19 @@ const participantSlice = createSlice({
          const { voteCount } = action.payload;
          state.participantVotesCount = voteCount;
       },
+      setCurrentPage: (state, action) => {
+         const { currentPage } = action.payload;
+         state.currentPage = currentPage;
+      },
    },
 });
 
-export const { setParticipantId, setParticipantVotesCount } =
+export const { setParticipantId, setParticipantVotesCount, setCurrentPage } =
    participantSlice.actions;
 
 export const selectParticipantId = (state) => state.participant.participantId;
 export const selectParticipantVotesCount = (state) =>
    state.participant.participantVotesCount;
+export const selectCurrentPage = (state) => state.participant.currentPage;
 
 export default participantSlice.reducer;

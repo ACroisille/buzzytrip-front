@@ -8,15 +8,22 @@ import ChoiceDialog from "./ChoiceDialog";
 
 /**
  * Compnonent that displays main data about choices
+ * @param pollId
+ * @param currentPage
  * @param choice
+ * @param index
  * @returns {JSX.Element}
  * @constructor
  */
-const ChoiceCard = ({ choice }) => {
+const ChoiceCard = ({ pollId, currentPage, choice, index }) => {
    const [deleteChoice] = useDeleteChoiceMutation();
 
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
+
+   const handleDeleteChoice = () => {
+      deleteChoice({ id: choice?.id, pollId, currentPage, index });
+   };
 
    const description = choice?.description ? (
       <div className="py-2">
@@ -45,7 +52,7 @@ const ChoiceCard = ({ choice }) => {
                <button onClick={() => setShowChoiceModal(true)}>
                   <PencilIcon className="h-6 w-6" />
                </button>
-               <button onClick={() => deleteChoice({ id: choice?.id })}>
+               <button onClick={handleDeleteChoice}>
                   <TrashIcon className="h-6 w-6" />
                </button>
             </div>

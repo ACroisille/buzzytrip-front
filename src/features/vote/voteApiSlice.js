@@ -26,13 +26,13 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             body: vote,
          }),
          async onQueryStarted(
-            { pollId, ...vote },
+            { pollId, currentPage, ...vote },
             { dispatch, queryFulfilled }
          ) {
             const patchResult = dispatch(
                apiSlice.util.updateQueryData(
                   "getPollChoices",
-                  { pollId: pollId },
+                  { pollId: pollId, page: currentPage },
                   (draft) => {
                      const choice = draft.entities[vote.choice];
                      if (choice) choice.votes.push(vote);
@@ -47,6 +47,7 @@ export const voteApiSlice = apiSlice.injectEndpoints({
          },
          invalidatesTags: (result, error, arg) => [
             { type: "Choice", id: arg.choice },
+            { type: "Participant", id: "VOTE_COUNT" },
          ],
       }),
       deleteVote: builder.mutation({
@@ -56,13 +57,13 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             body: { id },
          }),
          async onQueryStarted(
-            { pollId, ...vote },
+            { pollId, currentPage, ...vote },
             { dispatch, queryFulfilled }
          ) {
             const patchResult = dispatch(
                apiSlice.util.updateQueryData(
                   "getPollChoices",
-                  { pollId: pollId },
+                  { pollId: pollId, page: currentPage },
                   (draft) => {
                      const choice = draft.entities[vote.choice];
                      if (choice) {
@@ -80,6 +81,9 @@ export const voteApiSlice = apiSlice.injectEndpoints({
                patchResult.undo();
             }
          },
+         invalidatesTags: (result, error, arg) => [
+            { type: "Participant", id: "VOTE_COUNT" },
+         ],
       }),
    }),
 });

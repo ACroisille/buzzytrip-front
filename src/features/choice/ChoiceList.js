@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import ChoiceCard from "./ChoiceCard";
-import { useGetPollChoicesQuery } from "./choiceApiSlice";
 import { useDispatch, useSelector } from "react-redux";
+
+import ChoiceCard from "./ChoiceCard";
+import ChoicePaginator from "./ChoicePaginator";
+
+import { useGetPollChoicesQuery } from "./choiceApiSlice";
+import { useGetVoteCountQuery } from "../participant/participantApiSlice";
 import {
+   selectCurrentPage,
    selectParticipantId,
    setParticipantVotesCount,
 } from "../participant/participantSlice";
@@ -11,31 +16,39 @@ import {
 /**
  * Compnonent that list choices
  * @param pollId
+ * @param page
  * @returns {JSX.Element}
  * @constructor
  */
 const ChoiceList = ({ pollId }) => {
    const dispatch = useDispatch();
    const currentParticipant = useSelector(selectParticipantId);
+   const currentPage = useSelector(selectCurrentPage);
+
    const {
       data: choices,
       isLoading,
       isSuccess,
       isError,
       error,
-   } = useGetPollChoicesQuery({ pollId });
+   } = useGetPollChoicesQuery(
+      { pollId, page: currentPage },
+      { refetchOnMountOrArgChange: true }
+   );
 
+   // Get Vote Count
+   const { data: voteCount } = useGetVoteCountQuery(
+      {
+         participantId: currentParticipant,
+      },
+      { skip: !currentParticipant }
+   );
+
+   // Dispatch current participant vote count
    useEffect(() => {
-      // Total vote count for current participant
-      const cpVoteCount =
-         choices?.ids.length > 0
-            ? choices?.ids
-                 .map((id) => choices?.entities[id]?.votes)
-                 .reduce((p, c) => p.concat(c))
-                 .filter((v) => v?.participant === currentParticipant).length
-            : 0;
-      dispatch(setParticipantVotesCount({ voteCount: cpVoteCount }));
-   }, [dispatch, currentParticipant, choices]);
+      dispatch(setParticipantVotesCount({ voteCount: voteCount?.vote_count }));
+      console.log(voteCount?.vote_count);
+   }, [dispatch, voteCount]);
 
    let content;
    if (isError) {
@@ -43,15 +56,33 @@ const ChoiceList = ({ pollId }) => {
    } else if (isLoading) {
       content = <p>Loading...</p>;
    } else if (isSuccess) {
+      const totalPageCount = Math.ceil(
+         choices.totalChoiceCount / process.env.REACT_APP_CHOICE_PER_PAGE
+      );
+      // If there is only page, no need to display the paginator
+      const choicePaginator =
+         totalPageCount > 1 ? (
+            <ChoicePaginator
+               currentPage={currentPage}
+               totalPageCount={totalPageCount}
+            />
+         ) : null;
+
       content = (
          <div className="w-full">
             <ul className="flex flex-col space-y-3">
                {choices.ids.map((choiceId) => (
                   <li key={choiceId}>
-                     <ChoiceCard choice={choices.entities[choiceId]} />
+                     <ChoiceCard
+                        pollId={pollId}
+                        currentPage={currentPage}
+                        choice={choices.entities[choiceId]}
+                        index={choices.ids.findIndex((x) => x === choiceId)}
+                     />
                   </li>
                ))}
             </ul>
+            {choicePaginator}
          </div>
       );
    }

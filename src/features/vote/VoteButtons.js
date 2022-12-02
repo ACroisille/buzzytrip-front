@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { HandThumbUpIcon } from "@heroicons/react/24/outline";
-import { useAddVoteMutation, useDeleteVoteMutation } from "./voteApiSlice";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { HandThumbUpIcon } from "@heroicons/react/24/outline";
+
+import { useAddVoteMutation, useDeleteVoteMutation } from "./voteApiSlice";
 import {
+   selectCurrentPage,
    selectParticipantId,
    selectParticipantVotesCount,
 } from "../participant/participantSlice";
-import { useParams } from "react-router-dom";
 
 /**
  * Component to vote
@@ -18,6 +20,7 @@ import { useParams } from "react-router-dom";
 function VoteButtons({ choiceId, votes }) {
    const { poll_id: pollId } = useParams();
 
+   const currentPage = useSelector(selectCurrentPage);
    const currentParticipant = useSelector(selectParticipantId);
    const cpVoteCount = useSelector(selectParticipantVotesCount);
 
@@ -36,10 +39,11 @@ function VoteButtons({ choiceId, votes }) {
    const handleUpVoteClick = () => {
       if (cpUpVotes.length > 0) {
          const vote = cpUpVotes[0];
-         deleteVote({ pollId: pollId, ...vote });
+         deleteVote({ pollId: pollId, currentPage: currentPage, ...vote });
       } else {
          addVote({
             pollId: pollId,
+            currentPage: currentPage,
             choice: choiceId,
             participant: currentParticipant,
             is_pos: true,
@@ -50,7 +54,10 @@ function VoteButtons({ choiceId, votes }) {
    return (
       <div>
          <button
-            disabled={cpUpVotes?.length === 0 && cpVoteCount >= 3}
+            disabled={
+               cpUpVotes?.length === 0 &&
+               cpVoteCount >= process.env.REACT_APP_MAX_VOTE_PER_PARTICIPANT
+            }
             aria-label="Vote for it"
             onClick={handleUpVoteClick}
             className={"group"}
@@ -62,7 +69,7 @@ function VoteButtons({ choiceId, votes }) {
                   ${cpUpVotes?.length ? "fill-violet-400" : ""}
                   `}
                />
-               <p>{votes.length}</p>
+               <p>{votes?.length}</p>
             </div>
          </button>
       </div>
