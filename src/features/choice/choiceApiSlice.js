@@ -89,6 +89,7 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
             try {
                await queryFulfilled;
                if (currentPage > 1 && index === 0) {
+                  // If deleted choice is the last of its page, go to previous page
                   dispatch(setCurrentPage({ currentPage: currentPage - 1 }));
                } else {
                   // Invalidate current page

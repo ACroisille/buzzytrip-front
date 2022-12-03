@@ -1,18 +1,17 @@
 import { useDispatch } from "react-redux";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { setCurrentPage } from "../participant/participantSlice";
 
-const ChoicePaginator = ({ currentPage, totalPageCount }) => {
+const Paginator = ({ currentPage, totalPageCount, setPage }) => {
    const dispatch = useDispatch();
 
    const previous = () => {
       if (currentPage > 1) {
-         dispatch(setCurrentPage({ currentPage: currentPage - 1 }));
+         dispatch(setPage({ currentPage: currentPage - 1 }));
       }
    };
    const next = () => {
       if (currentPage < totalPageCount) {
-         dispatch(setCurrentPage({ currentPage: currentPage + 1 }));
+         dispatch(setPage({ currentPage: currentPage + 1 }));
       }
    };
    return (
@@ -36,4 +35,4 @@ const ChoicePaginator = ({ currentPage, totalPageCount }) => {
    );
 };
 
-export default ChoicePaginator;
+export default Paginator;

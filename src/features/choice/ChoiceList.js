@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
 import ChoiceCard from "./ChoiceCard";
-import ChoicePaginator from "./ChoicePaginator";
+import Paginator from "../../components/Paginator";
 
 import { useGetPollChoicesQuery } from "./choiceApiSlice";
 import { useGetVoteCountQuery } from "../participant/participantApiSlice";
@@ -11,6 +11,7 @@ import {
    selectCurrentPage,
    selectParticipantId,
    setParticipantVotesCount,
+   setCurrentPage,
 } from "../participant/participantSlice";
 
 /**
@@ -47,7 +48,6 @@ const ChoiceList = ({ pollId }) => {
    // Dispatch current participant vote count
    useEffect(() => {
       dispatch(setParticipantVotesCount({ voteCount: voteCount?.vote_count }));
-      console.log(voteCount?.vote_count);
    }, [dispatch, voteCount]);
 
    let content;
@@ -62,9 +62,10 @@ const ChoiceList = ({ pollId }) => {
       // If there is only page, no need to display the paginator
       const choicePaginator =
          totalPageCount > 1 ? (
-            <ChoicePaginator
+            <Paginator
                currentPage={currentPage}
                totalPageCount={totalPageCount}
+               setPage={setCurrentPage}
             />
          ) : null;
 
