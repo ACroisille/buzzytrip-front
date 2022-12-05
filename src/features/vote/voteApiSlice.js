@@ -26,13 +26,13 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             body: vote,
          }),
          async onQueryStarted(
-            { pollId, currentPage, ...vote },
+            { pollId, currentPage, currentSort, ...vote },
             { dispatch, queryFulfilled }
          ) {
             const patchResult = dispatch(
                apiSlice.util.updateQueryData(
                   "getPollChoices",
-                  { pollId: pollId, page: currentPage },
+                  { pollId: pollId, page: currentPage, sort: currentSort },
                   (draft) => {
                      const choice = draft.entities[vote.choice];
                      if (choice) choice.votes.push(vote);
@@ -57,13 +57,13 @@ export const voteApiSlice = apiSlice.injectEndpoints({
             body: { id },
          }),
          async onQueryStarted(
-            { pollId, currentPage, ...vote },
+            { pollId, currentPage, currentSort, ...vote },
             { dispatch, queryFulfilled }
          ) {
             const patchResult = dispatch(
                apiSlice.util.updateQueryData(
                   "getPollChoices",
-                  { pollId: pollId, page: currentPage },
+                  { pollId: pollId, page: currentPage, sort: currentSort },
                   (draft) => {
                      const choice = draft.entities[vote.choice];
                      if (choice) {

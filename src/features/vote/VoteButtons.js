@@ -6,6 +6,7 @@ import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 import { useAddVoteMutation, useDeleteVoteMutation } from "./voteApiSlice";
 import {
    selectCurrentPage,
+   selectCurrentSort,
    selectParticipantId,
    selectParticipantVotesCount,
 } from "../participant/participantSlice";
@@ -21,6 +22,7 @@ function VoteButtons({ choiceId, votes }) {
    const { poll_id: pollId } = useParams();
 
    const currentPage = useSelector(selectCurrentPage);
+   const currentSort = useSelector(selectCurrentSort);
    const currentParticipant = useSelector(selectParticipantId);
    const cpVoteCount = useSelector(selectParticipantVotesCount);
 
@@ -39,11 +41,17 @@ function VoteButtons({ choiceId, votes }) {
    const handleUpVoteClick = () => {
       if (cpUpVotes.length > 0) {
          const vote = cpUpVotes[0];
-         deleteVote({ pollId: pollId, currentPage: currentPage, ...vote });
+         deleteVote({
+            pollId: pollId,
+            currentPage: currentPage,
+            currentSort: currentSort,
+            ...vote,
+         });
       } else {
          addVote({
             pollId: pollId,
             currentPage: currentPage,
+            currentSort: currentSort,
             choice: choiceId,
             participant: currentParticipant,
             is_pos: true,

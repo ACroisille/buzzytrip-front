@@ -11,8 +11,8 @@ const initialState = choiceAdapter.getInitialState();
 export const choiceApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getPollChoices: builder.query({
-         query: ({ pollId, page = 1 }) =>
-            `/choice/?poll_id=${pollId}&page=${page}`,
+         query: ({ pollId, page = 1, sort = "creation_time_desc" }) =>
+            `/choice/?poll_id=${pollId}&page=${page}&sort=${sort}`,
          transformResponse: (response, meta, arg) => {
             const entities = choiceAdapter.setAll(
                initialState,

@@ -10,9 +10,23 @@ import { useGetVoteCountQuery } from "../participant/participantApiSlice";
 import {
    selectCurrentPage,
    selectParticipantId,
+   selectCurrentSort,
    setParticipantVotesCount,
    setCurrentPage,
+   setCurrentSort,
 } from "../participant/participantSlice";
+import Dropdown from "../../components/Dropdown";
+
+const sortOptions = [
+   {
+      value: "creation_time_desc",
+      label: "newest to oldest",
+   },
+   {
+      value: "creation_time_asc",
+      label: "oldest to newest",
+   },
+];
 
 /**
  * Compnonent that list choices
@@ -25,6 +39,7 @@ const ChoiceList = ({ pollId }) => {
    const dispatch = useDispatch();
    const currentParticipant = useSelector(selectParticipantId);
    const currentPage = useSelector(selectCurrentPage);
+   const currentSort = useSelector(selectCurrentSort);
 
    const {
       data: choices,
@@ -33,7 +48,7 @@ const ChoiceList = ({ pollId }) => {
       isError,
       error,
    } = useGetPollChoicesQuery(
-      { pollId, page: currentPage },
+      { pollId, page: currentPage, sort: currentSort },
       { refetchOnMountOrArgChange: true }
    );
 
@@ -71,6 +86,12 @@ const ChoiceList = ({ pollId }) => {
 
       content = (
          <div className="w-full">
+            <Dropdown
+               options={sortOptions}
+               selectedOption={currentSort}
+               setSort={setCurrentSort}
+               setPage={setCurrentPage}
+            />
             <ul className="flex flex-col space-y-3">
                {choices.ids.map((choiceId) => (
                   <li key={choiceId}>
