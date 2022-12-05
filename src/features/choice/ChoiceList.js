@@ -92,7 +92,7 @@ const ChoiceList = ({ pollId }) => {
                setSort={setCurrentSort}
                setPage={setCurrentPage}
             />
-            <ul className="flex flex-col space-y-3">
+            <ul className="grid sm:grid-cols-1 sm:gap-1 md:grid-cols-2 md:gap-2 lg:grid-cols-4 lg:gap-4">
                {choices.ids.map((choiceId) => (
                   <li key={choiceId}>
                      <ChoiceCard

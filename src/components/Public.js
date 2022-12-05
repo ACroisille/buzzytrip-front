@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as ReactLogo } from "../assets/undraw_travelers_re_y25a.svg";
+import { ReactComponent as PublicPicture } from "../assets/undraw_travelers_re_y25a.svg";
 
 /**
  * Public component
@@ -34,7 +34,7 @@ const Public = () => {
                   </button>
                </div>
                <div className={"w-1/2 pr-40 py-20"}>
-                  <ReactLogo />
+                  <PublicPicture />
                </div>
             </div>
          </div>

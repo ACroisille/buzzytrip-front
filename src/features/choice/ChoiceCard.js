@@ -6,6 +6,8 @@ import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
 import ChoiceDialog from "./ChoiceDialog";
 
+import { ReactComponent as ChoiceDefaultPicture } from "../../assets/undraw_house_searching_re_stk8.svg";
+
 /**
  * Compnonent that displays main data about choices
  * @param pollId
@@ -39,15 +41,23 @@ const ChoiceCard = ({ pollId, currentPage, choice, index }) => {
             rel="noreferrer"
             className="text-blue-500"
          >
-            {choice?.link}
+            <button
+               className="inline-block px-2 py-1 text-white bg-violet-500 text-sm leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+               type="button"
+            >
+               check it
+            </button>
          </a>
       </div>
    ) : null;
 
    return (
-      <div className="flex flex-col bg-white rounded shadow-md p-2 hover:bg-violet-100">
-         <div className="flex items-center justify-between">
-            <p className="text-xl">{choice?.name}</p>
+      <div className="flex flex-col h-64 bg-white rounded shadow-md p-2 hover:bg-violet-100">
+         <div className={"flex h-32 justify-center"}>
+            <ChoiceDefaultPicture />
+         </div>
+         <div className="flex items-center justify-between mt-2">
+            <p className="text-base truncate">{choice?.name}</p>
             <div className="flex items-center space-x-2">
                <button onClick={() => setShowChoiceModal(true)}>
                   <PencilIcon className="h-6 w-6" />
@@ -57,8 +67,10 @@ const ChoiceCard = ({ pollId, currentPage, choice, index }) => {
                </button>
             </div>
          </div>
-         {description}
-         {link}
+         <div className="mb-auto">
+            {description}
+            {link}
+         </div>
          <VoteButtons choiceId={choice?.id} votes={choice?.votes} />
          <ChoiceDialog
             visible={showChoiceModal}
