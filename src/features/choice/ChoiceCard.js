@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { TrashIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
-import { useDeleteChoiceMutation } from "./choiceApiSlice";
 import VoteButtons from "../vote/VoteButtons";
 import ChoiceDialog from "./ChoiceDialog";
 
@@ -17,15 +16,9 @@ import { ReactComponent as ChoiceDefaultPicture } from "../../assets/undraw_hous
  * @returns {JSX.Element}
  * @constructor
  */
-const ChoiceCard = ({ pollId, currentPage, choice, index }) => {
-   const [deleteChoice] = useDeleteChoiceMutation();
-
+const ChoiceCard = ({ choice, cacheData }) => {
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
-
-   const handleDeleteChoice = () => {
-      deleteChoice({ id: choice?.id, pollId, currentPage, index });
-   };
 
    const description = choice?.description ? (
       <div className="py-2">
@@ -60,10 +53,7 @@ const ChoiceCard = ({ pollId, currentPage, choice, index }) => {
             <p className="text-base truncate">{choice?.name}</p>
             <div className="flex items-center space-x-2">
                <button onClick={() => setShowChoiceModal(true)}>
-                  <PencilIcon className="h-6 w-6" />
-               </button>
-               <button onClick={handleDeleteChoice}>
-                  <TrashIcon className="h-6 w-6" />
+                  <EllipsisVerticalIcon className="h-6 w-6" />
                </button>
             </div>
          </div>
@@ -76,6 +66,7 @@ const ChoiceCard = ({ pollId, currentPage, choice, index }) => {
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}
             choice={choice}
+            cacheData={cacheData}
          />
       </div>
    );

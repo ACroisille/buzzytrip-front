@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
+import { selectParticipantId } from "../participant/participantSlice";
 import {
    useAddChoiceMutation,
    useUpdateChoiceMutation,
+   useDeleteChoiceMutation,
 } from "./choiceApiSlice";
 
 /**
@@ -15,14 +18,12 @@ import {
  * @returns {JSX.Element|null}
  * @constructor
  */
-function ChoiceDialog({
-   visible,
-   onClose,
-   choice = null,
-   participantId = null,
-}) {
+function ChoiceDialog({ visible, onClose, choice = null, cacheData }) {
+   const currentParticipant = useSelector(selectParticipantId);
+
    const [addChoice] = useAddChoiceMutation();
    const [updateChoice] = useUpdateChoiceMutation();
+   const [deleteChoice] = useDeleteChoiceMutation();
 
    const handleOnClose = (e) => {
       if (e.target.id === "choiceModal") onClose();
@@ -49,13 +50,30 @@ function ChoiceDialog({
       } else {
          // Else, create it
          await addChoice({
-            participant: participantId,
+            participant: currentParticipant,
             ...body,
          });
       }
 
       onClose();
    };
+
+   const handleDeleteChoice = () => {
+      deleteChoice({ id: choice?.id, ...cacheData });
+   };
+
+   let deleteButton = null;
+   if (choice) {
+      deleteButton = (
+         <button
+            className="inline-block px-6 py-2.5 bg-white text-red-500 border border-red-500 font-medium leading-tight uppercase rounded shadow-md hover:text-white hover:bg-red-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+            type="button"
+            onClick={() => handleDeleteChoice()}
+         >
+            Delete
+         </button>
+      );
+   }
 
    if (!visible) return null;
    return (
@@ -97,11 +115,12 @@ function ChoiceDialog({
                   autoComplete="off"
                />
                <button
-                  className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+                  className="inline-block px-6 py-2.5 mb-2 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                   type="submit"
                >
                   Save
                </button>
+               {deleteButton}
             </form>
          </div>
       </div>

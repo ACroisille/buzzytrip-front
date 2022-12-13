@@ -66,14 +66,14 @@ export const choiceApiSlice = apiSlice.injectEndpoints({
             body: { id },
          }),
          async onQueryStarted(
-            { id, pollId, currentPage, index },
+            { id, pollId, currentPage, currentSort, index },
             { dispatch, queryFulfilled }
          ) {
             // Delete choice from cache
             const patchResult = dispatch(
                apiSlice.util.updateQueryData(
                   "getPollChoices",
-                  { pollId: pollId, page: currentPage },
+                  { pollId: pollId, page: currentPage, sort: currentSort },
                   (draft) => {
                      draft.totalChoiceCount = draft.totalChoiceCount - 1;
                      if (draft.entities[id]) {

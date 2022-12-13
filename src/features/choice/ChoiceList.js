@@ -96,10 +96,13 @@ const ChoiceList = ({ pollId }) => {
                {choices.ids.map((choiceId) => (
                   <li key={choiceId}>
                      <ChoiceCard
-                        pollId={pollId}
-                        currentPage={currentPage}
                         choice={choices.entities[choiceId]}
-                        index={choices.ids.findIndex((x) => x === choiceId)}
+                        cacheData={{
+                           pollId: pollId,
+                           currentPage: currentPage,
+                           currentSort: currentSort,
+                           index: choices.ids.findIndex((x) => x === choiceId),
+                        }}
                      />
                   </li>
                ))}
