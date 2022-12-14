@@ -47,6 +47,7 @@ export const voteApiSlice = apiSlice.injectEndpoints({
          },
          invalidatesTags: (result, error, arg) => [
             { type: "Choice", id: arg.choice },
+            { type: "Voters", id: arg.choice },
             { type: "Participant", id: "VOTE_COUNT" },
          ],
       }),
@@ -83,6 +84,7 @@ export const voteApiSlice = apiSlice.injectEndpoints({
          },
          invalidatesTags: (result, error, arg) => [
             { type: "Participant", id: "VOTE_COUNT" },
+            { type: "Voters", id: arg.choice },
          ],
       }),
    }),

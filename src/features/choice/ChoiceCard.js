@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { ReactComponent as ChoiceDefaultPicture } from "../../assets/undraw_house_searching_re_stk8.svg";
 
 import VoteButtons from "../vote/VoteButtons";
 import ChoiceDialog from "./ChoiceDialog";
-
-import { ReactComponent as ChoiceDefaultPicture } from "../../assets/undraw_house_searching_re_stk8.svg";
+import VotersDialog from "./VotersDialog";
 
 /**
  * Compnonent that displays main data about choices
- * @param pollId
- * @param currentPage
  * @param choice
- * @param index
+ * @param cacheData
  * @returns {JSX.Element}
  * @constructor
  */
 const ChoiceCard = ({ choice, cacheData }) => {
    const [showChoiceModal, setShowChoiceModal] = useState(false);
    const handleChoiceModalOnClose = () => setShowChoiceModal(false);
+
+   const [showVotersModal, setShowVotersModal] = useState(false);
+   const handleVotersModalOnClose = () => setShowVotersModal(false);
 
    const description = choice?.description ? (
       <div className="py-2">
@@ -61,12 +62,26 @@ const ChoiceCard = ({ choice, cacheData }) => {
             {description}
             {link}
          </div>
-         <VoteButtons choiceId={choice?.id} votes={choice?.votes} />
+         <div className={"flex justify-between"}>
+            <VoteButtons choiceId={choice?.id} votes={choice?.votes} />
+            <button
+               disabled={choice?.votes.length <= 0}
+               onClick={() => setShowVotersModal(true)}
+               className={"group"}
+            >
+               <UsersIcon className="h-6 w-6 group-disabled:fill-gray-400 " />
+            </button>
+         </div>
          <ChoiceDialog
             visible={showChoiceModal}
             onClose={handleChoiceModalOnClose}
             choice={choice}
             cacheData={cacheData}
+         />
+         <VotersDialog
+            visible={showVotersModal}
+            onClose={handleVotersModalOnClose}
+            choiceId={choice?.id}
          />
       </div>
    );

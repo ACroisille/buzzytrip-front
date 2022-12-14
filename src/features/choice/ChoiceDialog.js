@@ -14,7 +14,7 @@ import {
  * @param visible
  * @param onClose
  * @param choice
- * @param participantId
+ * @param cacheData
  * @returns {JSX.Element|null}
  * @constructor
  */
@@ -62,18 +62,15 @@ function ChoiceDialog({ visible, onClose, choice = null, cacheData }) {
       deleteChoice({ id: choice?.id, ...cacheData });
    };
 
-   let deleteButton = null;
-   if (choice) {
-      deleteButton = (
-         <button
-            className="inline-block px-6 py-2.5 bg-white text-red-500 border border-red-500 font-medium leading-tight uppercase rounded shadow-md hover:text-white hover:bg-red-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
-            type="button"
-            onClick={() => handleDeleteChoice()}
-         >
-            Delete
-         </button>
-      );
-   }
+   const deleteButton = choice ? (
+      <button
+         className="inline-block px-6 py-2.5 bg-white text-red-500 border border-red-500 font-medium leading-tight uppercase rounded shadow-md hover:text-white hover:bg-red-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+         type="button"
+         onClick={() => handleDeleteChoice()}
+      >
+         Delete
+      </button>
+   ) : null;
 
    if (!visible) return null;
    return (

@@ -12,10 +12,10 @@ export const participantApiSlice = apiSlice.injectEndpoints({
       getParticipant: builder.query({
          query: ({ userId, pollId }) =>
             `/participant/?user_id=${userId}&poll_id=${pollId}`,
-         transformResponse: (responseData) => {
+         transformResponse: (response) => {
             return participantAdpater.setOne(
                initialState,
-               responseData[0] ? responseData[0] : { id: null }
+               response[0] ? response[0] : { id: null }
             );
          },
          providesTags: (result) => [
@@ -25,8 +25,8 @@ export const participantApiSlice = apiSlice.injectEndpoints({
       }),
       getPollParticipants: builder.query({
          query: ({ pollId }) => `/participant/?poll_id=${pollId}`,
-         transformResponse: (responseData) => {
-            return participantAdpater.setAll(initialState, responseData);
+         transformResponse: (response) => {
+            return participantAdpater.setAll(initialState, response);
          },
          providesTags: (result) => [
             { type: "Participant", id: "LIST" },
@@ -37,6 +37,15 @@ export const participantApiSlice = apiSlice.injectEndpoints({
          query: ({ participantId }) =>
             `/participant/${participantId}/get_vote_count/`,
          providesTags: (result) => [{ type: "Participant", id: "VOTE_COUNT" }],
+      }),
+      getVoters: builder.query({
+         query: ({ choiceId }) => `/choice/${choiceId}/get_voters/`,
+         transformResponse: (response) => {
+            return participantAdpater.setAll(initialState, response);
+         },
+         providesTags: (result, error, arg) => [
+            { type: "Voters", id: arg.choiceId },
+         ],
       }),
       addParticipant: builder.mutation({
          query: (participant) => ({
@@ -78,6 +87,7 @@ export const {
    useGetParticipantQuery,
    useGetPollParticipantsQuery,
    useGetVoteCountQuery,
+   useGetVotersQuery,
    useAddParticipantMutation,
    useUpdateParticipantMutation,
    useDeleteParticipantMutation,
