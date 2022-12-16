@@ -7,7 +7,7 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import WelcomeDialog from "../participant/WelcomeDialog";
 import ChoiceList from "../choice/ChoiceList";
 import ChoiceDialog from "../choice/ChoiceDialog";
-import UpdatePollDialog from "./UpdatePollDialog";
+import PollDialog from "./UpdatePollDialog";
 
 import { useGetPollQuery } from "./pollApiSlice";
 import { useGetParticipantQuery } from "../participant/participantApiSlice";
@@ -98,7 +98,7 @@ const Poll = () => {
             onClose={handleChoiceModalOnClose}
             participantId={currentParticipant}
          />
-         <UpdatePollDialog
+         <PollDialog
             visible={showPollSettingsModal}
             onClose={handlePollSettingsModalOnClose}
             participant={participant?.entities[participant.ids[0]]}

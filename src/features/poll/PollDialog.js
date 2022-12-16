@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-import { useUpdatePollMutation } from "./pollApiSlice";
+import { useAddPollMutation, useUpdatePollMutation } from "./pollApiSlice";
 import {
    useDeleteParticipantMutation,
    useUpdateParticipantMutation,
@@ -17,44 +17,75 @@ import {
  * @returns {JSX.Element|null}
  * @constructor
  */
-function UpdatePollDialog({ visible, onClose, participant, poll }) {
+function PollDialog({ visible, onClose, userId, participant, poll }) {
    const navigate = useNavigate();
 
+   const [addPoll] = useAddPollMutation();
    const [updatePoll] = useUpdatePollMutation();
    const [updateParticipant] = useUpdateParticipantMutation();
    const [deleteParticipant] = useDeleteParticipantMutation();
 
    const handleOnClose = (e) => {
-      if (e.target.id === "updatePollModal") onClose();
+      if (e.target.id === "pollDialog") onClose();
    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
+      const name = e.target["name"].value;
       const pseudo = e.target["pseudo"].value;
       const description = e.target["description"].value;
 
-      if (participant?.pseudo !== pseudo) {
-         console.log("### UpdatePollDialog : pseudo");
-         await updateParticipant({
-            id: participant?.id,
-            pseudo: pseudo ? pseudo : null,
-         });
-      }
-
-      if (
-         poll?.name !== e.target["name"].value ||
-         poll?.description !== description
-      ) {
-         console.log("### UpdatePollDialog : informations");
-         await updatePoll({
-            id: poll?.id,
+      if (userId && !participant && !poll) {
+         // If the poll doesn't exists yet, create it
+         const poll = await addPoll({
             name: e.target["name"].value,
             description: description ? description : null,
+            created_by: userId,
+            pseudo: pseudo ? pseudo : null,
          });
-      }
 
-      onClose();
+         onClose();
+         navigate(`/poll/${poll.data.id}`);
+      } else {
+         if (participant) {
+            // Update participant infos
+            let participantDraft = {
+               id: participant.id,
+            };
+
+            if (participant.pseudo !== pseudo) {
+               // If participant pseudo has changed, update it
+               participantDraft.pseudo = pseudo ? pseudo : null;
+            }
+
+            if (Object.keys(participantDraft).length > 1) {
+               await updateParticipant(participantDraft);
+            }
+         }
+
+         if (poll) {
+            // Update poll infos
+            let pollDraft = {
+               id: poll?.id,
+            };
+
+            if (poll.name !== name) {
+               // If poll name has changed, update it
+               pollDraft.name = name;
+            }
+            if (poll.description !== description) {
+               // If poll discription has changed, update it
+               pollDraft.description = description;
+            }
+
+            if (Object.keys(pollDraft).length > 1) {
+               await updatePoll(pollDraft);
+            }
+         }
+
+         onClose();
+      }
    };
 
    const handleQuitPoll = async () => {
@@ -64,9 +95,25 @@ function UpdatePollDialog({ visible, onClose, participant, poll }) {
    };
 
    if (!visible) return null;
+
+   let quitPoll = null;
+   if (poll && participant) {
+      quitPoll = (
+         <div className="flex items-center justify-center w-full mt-3">
+            <button
+               className="inline-block px-6 py-2.5 bg-white text-red-500 border border-red-500 font-medium leading-tight uppercase rounded shadow-md hover:text-white hover:bg-red-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+               type="button"
+               onClick={handleQuitPoll}
+            >
+               Quit Poll
+            </button>
+         </div>
+      );
+   }
+
    return (
       <div
-         id="updatePollModal"
+         id="pollDialog"
          className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center"
          onClick={handleOnClose}
       >
@@ -113,18 +160,10 @@ function UpdatePollDialog({ visible, onClose, participant, poll }) {
                   save
                </button>
             </form>
-            <div className="flex items-center justify-center w-full mt-3">
-               <button
-                  className="inline-block px-6 py-2.5 bg-white text-red-500 border border-red-500 font-medium leading-tight uppercase rounded shadow-md hover:text-white hover:bg-red-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
-                  type="button"
-                  onClick={handleQuitPoll}
-               >
-                  Quit Poll
-               </button>
-            </div>
+            {quitPoll}
          </div>
       </div>
    );
 }
 
-export default UpdatePollDialog;
+export default PollDialog;
