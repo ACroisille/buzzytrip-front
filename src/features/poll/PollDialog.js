@@ -119,40 +119,73 @@ function PollDialog({ visible, onClose, userId, participant, poll }) {
       >
          <div className="bg-white p-2 rounded shadow-md w-1/2">
             <div className="flex items-center justify-between w-full mb-3">
-               <p className="text-lg">Poll Settings</p>
+               <p className="text-xl font-bold">Settings</p>
                <button onClick={() => onClose()}>
                   <XMarkIcon className="h-6 w-6" />
                </button>
             </div>
-            <form
-               onSubmit={handleSubmit}
-               className="flex items-center flex-col"
-            >
-               <input
-                  name="pseudo"
-                  type="text"
-                  className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  placeholder="Pseudo"
-                  defaultValue={participant?.pseudo}
-                  autoComplete="off"
-                  required
-               />
-               <input
-                  name="name"
-                  type="text"
-                  className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  placeholder="Name"
-                  defaultValue={poll?.name}
-                  autoComplete="off"
-                  required
-               />
-               <textarea
-                  name="description"
-                  placeholder="Description"
-                  className="form-control resize-y block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  defaultValue={poll?.description}
-                  autoComplete="off"
-               />
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+               <div className="border-b-2">
+                  <p className="text-lg font-semibold mb-1">Participant</p>
+                  <div className="pb-2">
+                     <label for="pseudo">Pseudo</label>
+                     <input
+                        name="pseudo"
+                        type="text"
+                        className="form-control block w-full px-3 py-1.5 mb-2 text-base text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        defaultValue={participant?.pseudo}
+                        autoComplete="off"
+                        required
+                     />
+                  </div>
+               </div>
+               <div>
+                  <p className="text-lg font-semibold mb-1">Poll</p>
+                  <div>
+                     <label for="name">Name</label>
+                     <input
+                        name="name"
+                        type="text"
+                        className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        defaultValue={poll?.name}
+                        autoComplete="off"
+                        required
+                     />
+                     <label for="description">Description</label>
+                     <textarea
+                        name="description"
+                        className="form-control resize-y block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        defaultValue={poll?.description}
+                        autoComplete="off"
+                     />
+                     <div className="flex space-x-4">
+                        <div className="flex flex-col">
+                           <label for="start_date">Start Date</label>
+                           <input
+                              className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                              name="start_date"
+                              type="date"
+                           />
+                        </div>
+                        <div className="flex flex-col">
+                           <label for="end_date">End Date</label>
+                           <input
+                              className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                              name="end_date"
+                              type="date"
+                           />
+                        </div>
+                        <div className="flex flex-col">
+                           <label for="closing_time">Closing Time</label>
+                           <input
+                              className="form-control block w-full px-3 py-1.5 mb-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                              name="closing_time"
+                              type="datetime-local"
+                           />
+                        </div>
+                     </div>
+                  </div>
+               </div>
                <button
                   className="inline-block px-6 py-2.5 text-white bg-violet-500 font-medium leading-tight uppercase rounded shadow-md hover:bg-violet-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                   type="submit"

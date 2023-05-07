@@ -7,7 +7,7 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import WelcomeDialog from "../participant/WelcomeDialog";
 import ChoiceList from "../choice/ChoiceList";
 import ChoiceDialog from "../choice/ChoiceDialog";
-import PollDialog from "./UpdatePollDialog";
+import PollDialog from "./PollDialog";
 
 import { useGetPollQuery } from "./pollApiSlice";
 import { useGetParticipantQuery } from "../participant/participantApiSlice";

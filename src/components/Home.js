@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import PollList from "../features/poll/PollList";
 
 import { selectCurrentUser } from "../features/auth/authSlice";
-import PollDialog from "../features/poll/CreatePollDialog";
+import PollDialog from "../features/poll/PollDialog";
 
 /**
  * Home component
